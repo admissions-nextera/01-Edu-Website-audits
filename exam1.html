@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Exam 02 — Arrays &amp; Hashing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0e0d;
+    --surface:   #0f1512;
+    --surface2:  #141c1a;
+    --border:    #1e2d29;
+    --accent:    #4af0c4;
+    --accent2:   #a8ffea;
+    --dim:       #2bba94;
+    --red:       #ff5f5f;
+    --warn:      #f7a330;
+    --text:      #cde8e0;
+    --muted:     #4d7a6e;
+    --code-bg:   #060d0b;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(74,240,196,0.018) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,240,196,0.018) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap { max-width: 920px; margin: 0 auto; padding: 0 24px 100px; position: relative; z-index: 1; }
+
+  /* SERIES NAV */
+  .series-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 18px 0 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .series-nav .sep     { color: var(--border); }
+  .series-nav .current { color: var(--accent); font-weight: 700; }
+  .exam-pills { margin-left: auto; display: flex; gap: 4px; }
+  .exam-pill {
+    width: 26px; height: 26px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 700;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    background: var(--surface);
+  }
+  .exam-pill.active { background: var(--accent); color: #060d0b; border-color: var(--accent); }
+  .exam-pill.locked { opacity: 0.3; }
+
+  /* HEADER */
+  header {
+    padding: 44px 0 36px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header-glow {
+    position: absolute;
+    top: -60px; right: -80px;
+    width: 500px; height: 400px;
+    background: radial-gradient(ellipse, rgba(74,240,196,0.06) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+  .badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid rgba(74,240,196,0.3);
+    background: rgba(74,240,196,0.07);
+    padding: 4px 12px; border-radius: 4px;
+  }
+  .badge-sec {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 4px 12px; border-radius: 4px;
+  }
+  h1 {
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+    font-weight: 800; letter-spacing: -0.025em; line-height: 1.05;
+    color: #fff; margin-bottom: 14px;
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px; max-width: 580px; line-height: 1.6;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px; margin-top: 30px;
+  }
+  .meta-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+  .meta-item:hover { border-color: rgba(74,240,196,0.25); }
+  .meta-item .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--muted); margin-bottom: 5px;
+  }
+  .meta-item .value { font-weight: 700; font-size: 16px; color: var(--accent); }
+  .meta-item .value.white { color: #fff; }
+  .meta-item .value.warn  { color: var(--warn); }
+
+  /* SECTION TITLE */
+  .section-title {
+    font-size: 10.5px;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase; letter-spacing: 0.2em;
+    color: var(--muted); margin: 52px 0 18px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* OBJECTIVE */
+  .objective-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 10px; padding: 26px 30px;
+  }
+  .objective-panel .obj-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--accent);
+    margin-bottom: 10px;
+  }
+  .objective-panel p { color: var(--text); font-size: 14px; line-height: 1.75; }
+  .objective-panel strong { color: #fff; }
+
+  /* TOPICS */
+  .topics-panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px 28px; margin-top: 12px;
+  }
+  .topics-panel .tp-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--muted); margin-bottom: 14px;
+  }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 6px; }
+  .topic-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text); padding: 5px 0; }
+  .topic-item::before { content: '▸'; color: var(--accent); flex-shrink: 0; margin-top: 1px; }
+
+  /* TOC */
+  .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px 26px; }
+  .toc ol { list-style: none; counter-reset: toc; columns: 2; gap: 4px; }
+  .toc li { padding: 7px 0; font-size: 13.5px; display: flex; align-items: baseline; gap: 10px; break-inside: avoid; }
+  .toc li .toc-num { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--accent); font-weight: 700; min-width: 24px; }
+  .toc li .toc-name { color: var(--text); flex: 1; }
+  .toc li .toc-lc { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); white-space: nowrap; }
+  @media (max-width: 600px) { .toc ol { columns: 1; } }
+
+  /* PROGRESS */
+  .progress-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px 24px; margin-bottom: 32px; }
+  .progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+  .progress-header .ph-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+  .progress-header .ph-count { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 700; }
+  .progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 2px; transition: width 0.4s ease; }
+
+  /* QUESTION CARD */
+  .question-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; margin-bottom: 20px;
+    transition: border-color 0.25s, box-shadow 0.25s;
+  }
+  .question-card:hover {
+    border-color: rgba(74,240,196,0.25);
+    box-shadow: 0 0 32px rgba(74,240,196,0.04);
+  }
+  .card-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 18px 26px;
+    border-bottom: 1px solid transparent;
+    background: var(--surface2);
+    cursor: pointer; user-select: none;
+    transition: background 0.2s;
+  }
+  .card-header:hover { background: rgba(74,240,196,0.04); }
+  .card-header.active { border-bottom-color: var(--border); }
+  .q-number { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 700; color: var(--muted); min-width: 24px; }
+  .q-title  { font-size: 16.5px; font-weight: 700; color: #fff; flex: 1; }
+  .q-lc     { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); }
+  .difficulty-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 3px 10px; border-radius: 4px;
+    background: rgba(74,240,196,0.1);
+    color: var(--accent);
+    border: 1px solid rgba(74,240,196,0.2);
+  }
+  .difficulty-badge.medium {
+    background: rgba(247,163,48,0.1);
+    color: var(--warn);
+    border: 1px solid rgba(247,163,48,0.2);
+  }
+  .toggle-icon { font-size: 11px; color: var(--muted); transition: transform 0.25s; }
+  .card-header.active .toggle-icon { transform: rotate(90deg); }
+  .card-body { padding: 28px 32px; display: none; animation: fadeIn 0.2s ease; }
+  .card-body.open { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* INSTRUCTIONS */
+  .instructions { font-size: 14px; line-height: 1.8; color: var(--text); margin-bottom: 22px; }
+  .instructions strong { color: #fff; }
+  .instructions ul { margin: 10px 0 0; padding: 0; list-style: none; }
+  .instructions li { padding: 4px 0 4px 22px; position: relative; color: var(--text); }
+  .instructions li::before { content: '—'; position: absolute; left: 0; color: var(--muted); }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px; text-transform: uppercase;
+    letter-spacing: 0.14em; color: var(--accent);
+    margin: 22px 0 9px;
+  }
+
+  /* CODE */
+  pre {
+    background: var(--code-bg); border: 1px solid var(--border);
+    border-radius: 8px; padding: 18px 20px; overflow-x: auto; position: relative;
+  }
+  pre::before {
+    content: attr(data-lang);
+    position: absolute; top: 8px; right: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+  }
+  code { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.65; color: var(--text); }
+  p code, li code {
+    background: rgba(74,240,196,0.08); border: 1px solid rgba(74,240,196,0.15);
+    border-radius: 4px; padding: 1px 6px; font-size: 12px; color: var(--accent2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .kw  { color: #7dd8ff; }
+  .fn  { color: #4af0c4; }
+  .ty  { color: #a8ffea; font-style: italic; }
+  .str { color: #87e887; }
+  .cm  { color: #2f5045; font-style: italic; }
+  .num { color: #f7c36a; }
+
+  /* CONSOLE */
+  .console {
+    background: #030907; border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 14px 18px; margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12.5px; line-height: 1.7;
+  }
+  .console .prompt  { color: var(--accent); font-weight: 700; }
+  .console .out     { color: #b0f5d8; }
+  .console .comment { color: var(--muted); font-style: italic; }
+
+  /* CONSTRAINTS */
+  .constraints {
+    background: rgba(74,240,196,0.03); border: 1px solid rgba(74,240,196,0.12);
+    border-radius: 8px; padding: 14px 18px; margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace; font-size: 12px;
+    color: var(--muted); line-height: 1.9;
+  }
+  .constraints .c-title { color: var(--accent); font-weight: 700; font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; }
+
+  /* COMPLEXITY */
+  .complexity {
+    display: inline-flex; gap: 16px;
+    background: rgba(74,240,196,0.05); border: 1px solid rgba(74,240,196,0.15);
+    border-radius: 6px; padding: 8px 16px; margin-top: 14px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px;
+  }
+  .cx-label { color: var(--muted); }
+  .cx-val   { color: var(--accent); font-weight: 700; }
+
+  /* RULES */
+  .rules-panel { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .rules-col { border-radius: 8px; padding: 14px 16px; }
+  .rules-col.allowed  { background: rgba(74,240,196,0.04); border: 1px solid rgba(74,240,196,0.18); }
+  .rules-col.forbidden{ background: rgba(255,95,95,0.04);  border: 1px solid rgba(255,95,95,0.18);  }
+  .rules-col .r-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.14em;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .rules-col.allowed  .r-title { color: var(--accent); }
+  .rules-col.forbidden .r-title { color: var(--red); }
+  .rules-col.allowed  .r-title::before { content: '✓'; font-size: 12px; }
+  .rules-col.forbidden .r-title::before { content: '✗'; font-size: 12px; }
+  .rule-tag {
+    display: inline-flex; font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 3px 8px; border-radius: 4px;
+    margin: 2px 2px 2px 0; line-height: 1.5;
+  }
+  .rules-col.allowed   .rule-tag { background: rgba(74,240,196,0.1); color: #9efce3; border: 1px solid rgba(74,240,196,0.15); }
+  .rules-col.forbidden .rule-tag { background: rgba(255,95,95,0.1);  color: #ffaaaa; border: 1px solid rgba(255,95,95,0.15); text-decoration: line-through; text-decoration-color: rgba(255,95,95,0.4); }
+  .rule-note { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); margin-top: 10px; line-height: 1.5; font-style: italic; }
+  @media (max-width: 560px) { .rules-panel { grid-template-columns: 1fr; } }
+
+  /* INSIGHT */
+  .insight {
+    background: rgba(74,240,196,0.04); border: 1px solid rgba(74,240,196,0.15);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 14px 18px; margin-top: 18px;
+    font-size: 13px; color: var(--text); line-height: 1.7;
+  }
+  .insight .i-label { font-family: 'JetBrains Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); font-weight: 700; margin-bottom: 6px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); margin-top: 64px; padding-top: 26px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  footer .f-series { color: var(--accent); font-weight: 700; }
+  footer .f-nav { display: flex; gap: 16px; }
+  footer .f-nav a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  footer .f-nav a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) { .meta-grid { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- SERIES NAV -->
+  <nav class="series-nav">
+    <span>Array & Hashing</span>
+    <span class="sep">›</span>
+    <span>Month 1</span>
+    <span class="sep">›</span>
+    <span class="current">Exam 01</span>
+    <div class="exam-pills">
+      <div class="exam-pill active">01</div>
+      <div class="exam-pill locked">02</div>
+      <div class="exam-pill locked">03</div>
+      <div class="exam-pill locked">04</div>
+      <div class="exam-pill locked">05</div>
+      <div class="exam-pill locked">06</div>
+      <div class="exam-pill locked">07</div>
+      <div class="exam-pill locked">08</div>
+      <div class="exam-pill locked">09</div>
+      <div class="exam-pill locked">10</div>
+      <div class="exam-pill locked">11</div>
+      <div class="exam-pill locked">12</div>
+    </div>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <div class="header-glow"></div>
+    <div class="eyebrow">
+      <span class="badge">🐹 Month 1 · Exam 01</span>
+      <span class="badge-sec">Go Programming · Arrays &amp; Hashing</span>
+    </div>
+    <h1>Arrays &amp; <span>Hashing</span></h1>
+    <p class="subtitle">// Hash maps, frequency counting, and the O(n) mindset — your second weapon.</p>
+    <div class="meta-grid">
+      <div class="meta-item"><div class="label">Questions</div><div class="value">9</div></div>
+      <div class="meta-item"><div class="label">Difficulty</div><div class="value warn">Mixed</div></div>
+      <div class="meta-item"><div class="label">Language</div><div class="value white">Go</div></div>
+      <div class="meta-item"><div class="label">Month</div><div class="value white">1 of 6</div></div>
+      <div class="meta-item"><div class="label">Required</div><div class="value warn">O(n)</div></div>
+      <div class="meta-item"><div class="label">Tests</div><div class="value">Required</div></div>
+    </div>
+  </header>
+
+  <!-- OBJECTIVE -->
+  <div class="section-title">Objective</div>
+  <div class="objective-panel">
+    <div class="obj-label">🎯 What you will prove in this exam</div>
+    <p>
+      Master <strong>hash-based problem solving</strong> — build frequency maps, design canonical keys, and exploit
+      mathematical properties of integer ranges. Every problem here has an O(n) solution hiding behind
+      the right data structure choice. After this exam, you will instinctively reach for a map before
+      a nested loop.
+    </p>
+  </div>
+
+  <!-- PREREQUISITES -->
+  <div class="section-title">Prerequisites</div>
+  <div class="topics-panel">
+    <div class="tp-label">📚 You must know these before attempting the exam</div>
+    <div class="topic-grid">
+      <div class="topic-item">Go <code>map[K]V</code> declaration and usage</div>
+      <div class="topic-item">Hash map O(1) average insert &amp; lookup</div>
+      <div class="topic-item">Iterating maps with <code>range</code></div>
+      <div class="topic-item">Fixed-size arrays as frequency counters</div>
+      <div class="topic-item">Sign-flip trick for O(1) visited marking</div>
+      <div class="topic-item">Prefix &amp; suffix product passes</div>
+      <div class="topic-item">Bucket sort by frequency</div>
+      <div class="topic-item">XOR and arithmetic for missing values</div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <div class="section-title">Contents</div>
+  <div class="toc">
+    <ol>
+      <li><span class="toc-num">01</span><span class="toc-name">The Pair Hunter</span><span class="toc-lc">LC #1</span></li>
+      <li><span class="toc-num">02</span><span class="toc-name">The Duplicate Detector</span><span class="toc-lc">LC #217</span></li>
+      <li><span class="toc-num">03</span><span class="toc-name">The Letter Spy</span><span class="toc-lc">LC #242</span></li>
+      <li><span class="toc-num">04</span><span class="toc-name">The Anagram Architect</span><span class="toc-lc">LC #49</span></li>
+      <li><span class="toc-num">05</span><span class="toc-name">The Frequency Podium</span><span class="toc-lc">LC #347</span></li>
+      <li><span class="toc-num">06</span><span class="toc-name">The Product Ghost</span><span class="toc-lc">LC #238</span></li>
+      <li><span class="toc-num">07</span><span class="toc-name">The Chain Walker</span><span class="toc-lc">LC #128</span></li>
+      <li><span class="toc-num">08</span><span class="toc-name">The Lost Number</span><span class="toc-lc">LC #268</span></li>
+      <li><span class="toc-num">09</span><span class="toc-name">The Double Agent</span><span class="toc-lc">LC #442</span></li>
+    </ol>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="section-title">Your Progress</div>
+  <div class="progress-wrap">
+    <div class="progress-header">
+      <span class="ph-label">Questions opened</span>
+      <span class="ph-count" id="prog-count">0 / 9</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="prog-fill"></div>
+    </div>
+  </div>
+
+  <!-- QUESTIONS -->
+  <div class="section-title">Questions</div>
+
+  <!-- Q1: Two Sum -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">01</span>
+      <span class="q-title">The Pair Hunter</span>
+      <span class="q-lc">LC #1</span>
+      <span class="difficulty-badge">Easy</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an integer slice <code>nums</code> and a <code>target</code>, return the <strong>indices</strong> of the two numbers that add up to <code>target</code>. Exactly one valid answer is guaranteed — find it in a single pass.</p>
+        <ul>
+          <li>You may not use the same element twice.</li>
+          <li>For each number, ask: "have I seen the value I need to complete the pair?" A hash map answers that in O(1).</li>
+          <li>Store <code>value → index</code> as you walk forward; check before inserting.</li>
+          <li>Duplicates like <code>[3, 3]</code> are valid — your map must not overwrite an index before checking against it.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">twoSum</span>(nums []<span class="ty">int</span>, target <span class="ty">int</span>) []<span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">twoSum</span>([]<span class="ty">int</span>{<span class="num">2</span>, <span class="num">7</span>, <span class="num">11</span>, <span class="num">15</span>}, <span class="num">9</span>))  <span class="cm">// [0 1]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">twoSum</span>([]<span class="ty">int</span>{<span class="num">3</span>, <span class="num">2</span>, <span class="num">4</span>},       <span class="num">6</span>))  <span class="cm">// [1 2]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">twoSum</span>([]<span class="ty">int</span>{<span class="num">3</span>, <span class="num">3</span>},          <span class="num">6</span>))  <span class="cm">// [0 1]</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">[0 1]</span><br>
+<span class="out">[1 2]</span><br>
+<span class="out">[0 1]</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        2 &le; nums.length &le; 10<sup>4</sup><br>
+        Exactly one valid solution exists<br>
+        You may not use the same element twice
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(n)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">map[int]int</span>
+          <span class="rule-tag">single for loop</span>
+          <span class="rule-tag">map lookup ok idiom</span>
+          <div class="rule-note">// seen[complement] → check first, then store index</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">nested loops O(n²)</span>
+          <span class="rule-tag">brute force</span>
+          <div class="rule-note">// O(n²) nested loop is explicitly not acceptable</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        At each index <code>i</code>, the complement you need is <code>target - nums[i]</code>. Check if that complement is already in your map. If it is, you're done. If not, store <code>nums[i] → i</code> and move on. One pass, one map.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2: Contains Duplicate -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">02</span>
+      <span class="q-title">The Duplicate Detector</span>
+      <span class="q-lc">LC #217</span>
+      <span class="difficulty-badge">Easy</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an integer slice <code>nums</code>, return <code>true</code> if <strong>any value appears at least twice</strong>, and <code>false</code> if every element is distinct.</p>
+        <ul>
+          <li>An empty slice or single-element slice has no duplicates — return <code>false</code>.</li>
+          <li>You need O(1) average-case lookups — a hash set is the right tool.</li>
+          <li>As you walk the slice, ask "have I seen this before?" before inserting each element.</li>
+          <li>A nested-loop O(n²) approach is not acceptable.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">containsDuplicate</span>(nums []<span class="ty">int</span>) <span class="ty">bool</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">containsDuplicate</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">1</span>}))                   <span class="cm">// true</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">containsDuplicate</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>}))                   <span class="cm">// false</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">containsDuplicate</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">3</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">3</span>, <span class="num">2</span>, <span class="num">4</span>, <span class="num">2</span>})) <span class="cm">// true</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">true</span><br>
+<span class="out">false</span><br>
+<span class="out">true</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        1 &le; nums.length &le; 10<sup>5</sup><br>
+        Empty or single-element slice → return false
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(n)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">map[int]bool</span>
+          <span class="rule-tag">map[int]struct{}</span>
+          <span class="rule-tag">single for loop</span>
+          <div class="rule-note">// seen[v] = true  — O(1) per element</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">nested loops</span>
+          <div class="rule-note">// Sorting is O(n log n) — not acceptable here</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        Use a <code>map[int]bool</code> as a visited set. For each element, check if it's already in the map — if yes, return <code>true</code> immediately. Otherwise add it and continue. If you finish the loop, return <code>false</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3: Valid Anagram -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">03</span>
+      <span class="q-title">The Letter Spy</span>
+      <span class="q-lc">LC #242</span>
+      <span class="difficulty-badge">Easy</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given two strings <code>s</code> and <code>t</code>, return <code>true</code> if <code>t</code> is an <strong>anagram</strong> of <code>s</code>. An anagram uses every original letter exactly once, just rearranged.</p>
+        <ul>
+          <li>Different lengths → immediately return <code>false</code>.</li>
+          <li>Both strings contain only <strong>lowercase English letters</strong>.</li>
+          <li>A fixed-size <code>[26]int</code> frequency array counts as O(1) space — use it instead of a map.</li>
+          <li>Count up for <code>s</code>, count down for <code>t</code>; any non-zero slot at the end means not an anagram.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">isAnagram</span>(s <span class="ty">string</span>, t <span class="ty">string</span>) <span class="ty">bool</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">isAnagram</span>(<span class="str">"anagram"</span>, <span class="str">"nagaram"</span>)) <span class="cm">// true</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">isAnagram</span>(<span class="str">"rat"</span>,     <span class="str">"car"</span>))     <span class="cm">// false</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">isAnagram</span>(<span class="str">"listen"</span>,  <span class="str">"silent"</span>))  <span class="cm">// true</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">true</span><br>
+<span class="out">false</span><br>
+<span class="out">true</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        1 &le; s.length, t.length &le; 5×10<sup>4</sup><br>
+        s and t consist of lowercase English letters only
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(1)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">[26]int array</span>
+          <span class="rule-tag">byte arithmetic</span>
+          <span class="rule-tag">len()</span>
+          <span class="rule-tag">range loop</span>
+          <div class="rule-note">// freq[c - 'a']++ is the core operation</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">map[byte]int</span>
+          <span class="rule-tag">strings package</span>
+          <span class="rule-tag">unicode package</span>
+          <div class="rule-note">// Fixed-size array → O(1) space, no map needed</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        In Go, <code>'a'</code> is a byte with value <code>97</code>. So <code>c - 'a'</code> maps each letter to an index 0–25 — a perfect fit for a <code>[26]int</code> array. Increment for <code>s</code>, decrement for <code>t</code>, then verify every slot is zero.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4: Group Anagrams -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">04</span>
+      <span class="q-title">The Anagram Architect</span>
+      <span class="q-lc">LC #49</span>
+      <span class="difficulty-badge medium">Medium</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given a slice of strings <code>strs</code>, group all strings that are <strong>anagrams of each other</strong> into the same subslice. The output groups and the strings within each group may appear in any order.</p>
+        <ul>
+          <li>An empty string forms its own group of one.</li>
+          <li>All strings contain only <strong>lowercase English letters</strong>.</li>
+          <li>The challenge: design a <strong>canonical key</strong> two strings share if and only if they are anagrams — without sorting.</li>
+          <li>A fixed-size <code>[26]int</code> frequency array, converted to a string, is the key.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">groupAnagrams</span>(strs []<span class="ty">string</span>) [][]<span class="ty">string</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">groupAnagrams</span>([]<span class="ty">string</span>{<span class="str">"eat"</span>, <span class="str">"tea"</span>, <span class="str">"tan"</span>, <span class="str">"ate"</span>, <span class="str">"nat"</span>, <span class="str">"bat"</span>}))
+    fmt.<span class="fn">Println</span>(<span class="fn">groupAnagrams</span>([]<span class="ty">string</span>{<span class="str">""</span>}))
+    fmt.<span class="fn">Println</span>(<span class="fn">groupAnagrams</span>([]<span class="ty">string</span>{<span class="str">"a"</span>}))
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">[[eat tea ate] [tan nat] [bat]]</span><br>
+<span class="out">[[]]</span><br>
+<span class="out">[[a]]</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        1 &le; strs.length &le; 10<sup>4</sup><br>
+        0 &le; strs[i].length &le; 100<br>
+        strs[i] consists of lowercase English letters only<br>
+        Empty strs → return [][]string{}
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n·k)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(n·k)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">map[string][]string</span>
+          <span class="rule-tag">[26]int key</span>
+          <span class="rule-tag">fmt.Sprintf key</span>
+          <span class="rule-tag">string(key[:])</span>
+          <div class="rule-note">// fmt.Sprintf("%v", freq) turns [26]int into a string key</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">sort individual strings</span>
+          <div class="rule-note">// Sorting each string is O(k log k) — use freq array instead</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        For each string, build a <code>[26]int</code> frequency array, then convert it to a string with <code>fmt.Sprintf("%v", freq)</code>. Use that string as a map key. All anagrams produce the same key and land in the same bucket. Collect the map values at the end.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5: Top K Frequent Elements -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">05</span>
+      <span class="q-title">The Frequency Podium</span>
+      <span class="q-lc">LC #347</span>
+      <span class="difficulty-badge medium">Medium</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an integer slice <code>nums</code> and an integer <code>k</code>, return the <code>k</code> most frequently occurring elements. The answer may be returned in <strong>any order</strong>.</p>
+        <ul>
+          <li><code>k</code> is always valid: <code>1 &le; k &le; unique elements</code>.</li>
+          <li>Your solution must be <strong>better than O(n log n)</strong> — no heap, no sort.</li>
+          <li>The path to O(n) is <strong>bucket sort by frequency</strong>: index <code>i</code> holds all elements appearing exactly <code>i</code> times.</li>
+          <li>Walk the bucket slice from highest to lowest, collecting until you have <code>k</code> values.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">topKFrequent</span>(nums []<span class="ty">int</span>, k <span class="ty">int</span>) []<span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">topKFrequent</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">3</span>}, <span class="num">2</span>))              <span class="cm">// [1 2]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">topKFrequent</span>([]<span class="ty">int</span>{<span class="num">1</span>}, <span class="num">1</span>))                             <span class="cm">// [1]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">topKFrequent</span>([]<span class="ty">int</span>{<span class="num">4</span>, <span class="num">4</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">6</span>, <span class="num">2</span>, <span class="num">2</span>, <span class="num">7</span>}, <span class="num">3</span>))     <span class="cm">// [4 6 2]</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">[1 2]</span><br>
+<span class="out">[1]</span><br>
+<span class="out">[4 6 2]</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        1 &le; nums.length &le; 10<sup>5</sup><br>
+        1 &le; k &le; number of unique elements<br>
+        The answer is guaranteed to be unique
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(n)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">map[int]int freq</span>
+          <span class="rule-tag">[][]int buckets</span>
+          <span class="rule-tag">reverse bucket walk</span>
+          <div class="rule-note">// buckets[freq] = append(buckets[freq], num)</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">heap / priority queue</span>
+          <span class="rule-tag">O(n log n) strategy</span>
+          <div class="rule-note">// Bucket sort sidesteps all comparison-based sorting</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        No element can appear more than <code>n</code> times, so a bucket slice of size <code>n+1</code> is always enough. Build a frequency map first, then scatter elements into buckets. Walk backwards from index <code>n</code> collecting elements into your result until you have <code>k</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6: Product of Array Except Self -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">06</span>
+      <span class="q-title">The Product Ghost</span>
+      <span class="q-lc">LC #238</span>
+      <span class="difficulty-badge medium">Medium</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an integer slice <code>nums</code>, return a slice <code>output</code> where <code>output[i]</code> is the <strong>product of every element in <code>nums</code> except <code>nums[i]</code></strong>. No division allowed.</p>
+        <ul>
+          <li>The input always contains at least two elements.</li>
+          <li>The slice <strong>may contain zeros</strong> — division-based approaches fail silently here.</li>
+          <li><code>output[i]</code> = (product of all elements left of <code>i</code>) × (product of all elements right of <code>i</code>).</li>
+          <li>Two passes: fill prefix products left-to-right into the output slice, then multiply in suffix products right-to-left with a single running variable.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">productExceptSelf</span>(nums []<span class="ty">int</span>) []<span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">productExceptSelf</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>}))        <span class="cm">// [24 12 8 6]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">productExceptSelf</span>([]<span class="ty">int</span>{<span class="num">-1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">-3</span>, <span class="num">3</span>}))   <span class="cm">// [0 0 9 0 0]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">productExceptSelf</span>([]<span class="ty">int</span>{<span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>}))        <span class="cm">// [60 40 30 24]</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">[24 12 8 6]</span><br>
+<span class="out">[0 0 9 0 0]</span><br>
+<span class="out">[60 40 30 24]</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        2 &le; nums.length &le; 10<sup>5</sup><br>
+        The slice may contain zeros<br>
+        Division is explicitly forbidden
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(1) extra</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">output slice (not counted)</span>
+          <span class="rule-tag">two for loops</span>
+          <span class="rule-tag">running suffix var</span>
+          <div class="rule-note">// Pass 1: prefix. Pass 2: suffix × output[i] in place</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">division operator /</span>
+          <span class="rule-tag">math package</span>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">auxiliary arrays</span>
+          <div class="rule-note">// No prefix array and suffix array — only one running var</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        Pass 1 (left→right): <code>output[i] = output[i-1] * nums[i-1]</code> — each slot accumulates the product of everything to its left. Pass 2 (right→left): maintain a <code>suffix</code> variable and multiply <code>output[i] *= suffix; suffix *= nums[i]</code>. No extra array needed.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7: Longest Consecutive Sequence -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">07</span>
+      <span class="q-title">The Chain Walker</span>
+      <span class="q-lc">LC #128</span>
+      <span class="difficulty-badge medium">Medium</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an unsorted integer slice <code>nums</code>, return the length of the <strong>longest sequence of consecutive integers</strong>. Elements don't need to be adjacent or ordered in the input.</p>
+        <ul>
+          <li>Empty slice → return <code>0</code>.</li>
+          <li>Duplicate values must be handled gracefully — they do not extend a sequence.</li>
+          <li>Load all values into a <strong>hash set</strong> for O(1) lookups.</li>
+          <li>Only begin counting at a number <code>n</code> if <code>n-1</code> is <strong>not</strong> in the set — marking it as a true sequence start.</li>
+          <li>Negative integers are valid input.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">longestConsecutive</span>(nums []<span class="ty">int</span>) <span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">longestConsecutive</span>([]<span class="ty">int</span>{<span class="num">100</span>, <span class="num">4</span>, <span class="num">200</span>, <span class="num">1</span>, <span class="num">3</span>, <span class="num">2</span>}))             <span class="cm">// 4  → [1,2,3,4]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">longestConsecutive</span>([]<span class="ty">int</span>{<span class="num">0</span>, <span class="num">3</span>, <span class="num">7</span>, <span class="num">2</span>, <span class="num">5</span>, <span class="num">8</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">0</span>, <span class="num">1</span>}))  <span class="cm">// 9  → [0..8]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">longestConsecutive</span>([]<span class="ty">int</span>{<span class="num">9</span>, <span class="num">1</span>, <span class="num">4</span>, <span class="num">7</span>, <span class="num">3</span>, <span class="num">-1</span>, <span class="num">0</span>, <span class="num">5</span>, <span class="num">8</span>, <span class="num">-1</span>, <span class="num">6</span>})) <span class="cm">// 7 → [3..9]</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">4</span><br>
+<span class="out">9</span><br>
+<span class="out">7</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        0 &le; nums.length &le; 10<sup>5</sup><br>
+        Negative integers are valid<br>
+        Duplicates are valid — they don't extend sequences
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(n)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">map[int]bool set</span>
+          <span class="rule-tag">two passes</span>
+          <span class="rule-tag">forward walk per start</span>
+          <div class="rule-note">// Each element visited at most twice across entire algorithm</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">O(n log n) strategy</span>
+          <div class="rule-note">// Sorting would work logically but violates the O(n) constraint</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        The "start of sequence" check — <code>!set[n-1]</code> — is what keeps this O(n). If you only start counting when there's no predecessor, each element is walked at most once during a forward scan. Without this guard, you'd recount overlapping chains and blow up to O(n²).
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8: Missing Number -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">08</span>
+      <span class="q-title">The Lost Number</span>
+      <span class="q-lc">LC #268</span>
+      <span class="difficulty-badge">Easy</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given a slice <code>nums</code> containing <code>n</code> distinct integers in the range <code>[0, n]</code>, return the <strong>one number that is missing</strong> from the sequence. No sorting, no extra space.</p>
+        <ul>
+          <li>Empty slice (<code>n = 0</code>) → return <code>0</code>.</li>
+          <li>All values are distinct and guaranteed in range <code>[0, n]</code>.</li>
+          <li>Think about the <strong>expected sum</strong> of <code>0 + 1 + … + n</code> vs the actual sum of the slice.</li>
+          <li>An XOR-based approach is equally valid and immune to integer overflow.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">missingNumber</span>(nums []<span class="ty">int</span>) <span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">missingNumber</span>([]<span class="ty">int</span>{<span class="num">3</span>, <span class="num">0</span>, <span class="num">1</span>}))                   <span class="cm">// 2</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">missingNumber</span>([]<span class="ty">int</span>{<span class="num">0</span>, <span class="num">1</span>}))                      <span class="cm">// 2</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">missingNumber</span>([]<span class="ty">int</span>{<span class="num">9</span>, <span class="num">6</span>, <span class="num">4</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">5</span>, <span class="num">7</span>, <span class="num">0</span>, <span class="num">1</span>})) <span class="cm">// 8</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">2</span><br>
+<span class="out">2</span><br>
+<span class="out">8</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        n = nums.length; nums contains n distinct values from [0, n]<br>
+        Empty slice (n = 0) → return 0
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(1)</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">Gauss formula n*(n+1)/2</span>
+          <span class="rule-tag">XOR reduction</span>
+          <span class="rule-tag">single loop</span>
+          <div class="rule-note">// expected = n*(n+1)/2; return expected - sum(nums)</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">hash map</span>
+          <span class="rule-tag">auxiliary slice</span>
+          <div class="rule-note">// O(1) space means no extra data structures at all</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        The sum of integers from 0 to <code>n</code> is <code>n*(n+1)/2</code>. Subtract the actual sum of <code>nums</code> and you get the missing value. For large inputs, the XOR approach <code>result ^= i ^ nums[i]</code> avoids any overflow risk entirely.
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9: Find All Duplicates -->
+  <div class="question-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="q-number">09</span>
+      <span class="q-title">The Double Agent</span>
+      <span class="q-lc">LC #442</span>
+      <span class="difficulty-badge medium">Medium</span>
+      <span class="toggle-icon">▶</span>
+    </div>
+    <div class="card-body">
+      <div class="instructions">
+        <p>Given an integer slice <code>nums</code> of length <code>n</code> where every element satisfies <code>1 &le; nums[i] &le; n</code>, return all elements that appear <strong>exactly twice</strong>. No auxiliary data structures — the input slice is your only workspace.</p>
+        <ul>
+          <li>Each value either appears once or twice — never more than twice.</li>
+          <li>The constraint <code>1 &le; nums[i] &le; n</code> is critical: every value is a valid index when decremented by one.</li>
+          <li>Use the <strong>sign of each element</strong> as a visited flag: when processing value <code>v</code>, negate <code>nums[abs(v)-1]</code>. If it's already negative, <code>abs(v)</code> is a duplicate.</li>
+          <li>You may temporarily mutate <code>nums</code> — the sign-flip approach leaves all absolute values intact.</li>
+        </ul>
+      </div>
+
+      <div class="section-label">Expected Function</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">findDuplicates</span>(nums []<span class="ty">int</span>) []<span class="ty">int</span> {
+
+}</code></pre>
+
+      <div class="section-label">Usage</div>
+      <pre data-lang="go"><code><span class="kw">func</span> <span class="fn">main</span>() {
+    fmt.<span class="fn">Println</span>(<span class="fn">findDuplicates</span>([]<span class="ty">int</span>{<span class="num">4</span>, <span class="num">3</span>, <span class="num">2</span>, <span class="num">7</span>, <span class="num">8</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">1</span>})) <span class="cm">// [2 3]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">findDuplicates</span>([]<span class="ty">int</span>{<span class="num">1</span>, <span class="num">1</span>, <span class="num">2</span>}))               <span class="cm">// [1]</span>
+    fmt.<span class="fn">Println</span>(<span class="fn">findDuplicates</span>([]<span class="ty">int</span>{<span class="num">1</span>}))                     <span class="cm">// []</span>
+}</code></pre>
+      <div class="console"><code>
+<span class="prompt">$</span> go run .<br>
+<span class="out">[2 3]</span><br>
+<span class="out">[1]</span><br>
+<span class="out">[]</span>
+      </code></div>
+
+      <div class="constraints">
+        <div class="c-title">Constraints</div>
+        1 &le; nums.length &le; 10<sup>5</sup><br>
+        1 &le; nums[i] &le; n (length of nums)<br>
+        Each value appears once or exactly twice<br>
+        Returned slice may be in any order
+      </div>
+      <div class="complexity">
+        <span><span class="cx-label">Time: </span><span class="cx-val">O(n)</span></span>
+        <span><span class="cx-label">Space: </span><span class="cx-val">O(1) extra</span></span>
+      </div>
+
+      <div class="section-label">Allowed &amp; Forbidden</div>
+      <div class="rules-panel">
+        <div class="rules-col allowed">
+          <div class="r-title">Allowed</div>
+          <span class="rule-tag">sign-flip technique</span>
+          <span class="rule-tag">abs() helper inline</span>
+          <span class="rule-tag">mutating nums</span>
+          <span class="rule-tag">result slice (output)</span>
+          <div class="rule-note">// abs() is not in stdlib for int — write it inline</div>
+        </div>
+        <div class="rules-col forbidden">
+          <div class="r-title">Forbidden</div>
+          <span class="rule-tag">sort package</span>
+          <span class="rule-tag">hash map</span>
+          <span class="rule-tag">frequency array</span>
+          <span class="rule-tag">any auxiliary slice</span>
+          <div class="rule-note">// O(1) extra space — the output slice doesn't count</div>
+        </div>
+      </div>
+      <div class="insight">
+        <div class="i-label">💡 Key Insight</div>
+        For each element, compute <code>idx = abs(v) - 1</code>. Negate <code>nums[idx]</code>. If it was already negative before you negated it, that means index <code>idx+1</code> was visited twice — append <code>abs(v)</code> to results. The sign encodes "visited" without any extra memory.
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <span>Gophers &nbsp;·&nbsp; <span class="f-series">Exam 01 — Arrays &amp; Hashing</span> &nbsp;·&nbsp; Month 1 of 6</span>
+    <div class="f-nav">
+      <a href="#">Exam 02 →</a>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  const opened = new Set();
+
+  function toggle(header) {
+    const body = header.nextElementSibling;
+    const isOpen = body.classList.contains('open');
+    const idx = [...document.querySelectorAll('.card-header')].indexOf(header);
+
+    document.querySelectorAll('.card-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.card-header').forEach(h => h.classList.remove('active'));
+
+    if (!isOpen) {
+      body.classList.add('open');
+      header.classList.add('active');
+      opened.add(idx);
+      updateProgress();
+    }
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.question-card').length;
+    const count = opened.size;
+    document.getElementById('prog-count').textContent = `${count} / ${total}`;
+    document.getElementById('prog-fill').style.width  = `${(count / total) * 100}%`;
+  }
+</script>
+</body>
+</html>
