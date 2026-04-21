@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>6-Month Full-Stack Engineering Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1217;
+    --bg3: #151820;
+    --border: #1e2430;
+    --text: #c9d1e0;
+    --muted: #4a5568;
+    --accent: #4fd1c5;
+    --accent2: #f6ad55;
+    --accent3: #fc8181;
+    --m1: #68d391;
+    --m2: #63b3ed;
+    --m3: #f6e05e;
+    --m4: #f6ad55;
+    --m5: #fc8181;
+    --m6: #b794f4;
+    --wed: #63b3ed;
+    --sat: #68d391;
+    --opt: #f6ad55;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(79,209,197,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .hero-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    opacity: 0.8;
+  }
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: 800;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+
+  /* SESSION LEGEND */
+  .legend {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .legend-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .legend-dot.wed { background: var(--wed); box-shadow: 0 0 8px var(--wed); }
+  .legend-dot.sat { background: var(--sat); box-shadow: 0 0 8px var(--sat); }
+  .legend-dot.opt { background: var(--opt); box-shadow: 0 0 8px var(--opt); }
+
+  /* HOW IT WORKS */
+  .how {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 40px 0;
+  }
+  .how-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+  }
+  .how-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+  }
+  .how-card.wed-card { border-top: 3px solid var(--wed); }
+  .how-card.sat-card { border-top: 3px solid var(--sat); }
+  .how-card.opt-card { border-top: 3px solid var(--opt); }
+  .how-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .how-day.wed { color: var(--wed); }
+  .how-day.sat { color: var(--sat); }
+  .how-day.opt { color: var(--opt); }
+  .how-card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* MAIN LAYOUT */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 50px 40px;
+  }
+
+  /* MONTH BLOCK */
+  .month {
+    margin-bottom: 70px;
+  }
+  .month-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .month-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    min-width: 60px;
+    padding-top: 4px;
+  }
+  .month-title-block { flex: 1; }
+  .month-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+  .month-themes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .theme-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+  }
+  .theme-cs { background: rgba(79,209,197,0.1); color: var(--accent); border: 1px solid rgba(79,209,197,0.2); }
+  .theme-proj { background: rgba(246,173,85,0.1); color: var(--accent2); border: 1px solid rgba(246,173,85,0.2); }
+  .month-goal {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    line-height: 1.6;
+  }
+  .month-goal strong { color: var(--text); font-weight: 500; }
+  .projects-list {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .proj-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    background: rgba(30,36,48,0.8);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+
+  /* WEEK */
+  .week {
+    margin-bottom: 32px;
+  }
+  .week-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding: 0 0 8px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .sessions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .session {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .session.optional {
+    grid-column: 1 / -1;
+    background: rgba(246,173,85,0.03);
+    border-color: rgba(246,173,85,0.15);
+  }
+  .session::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+  }
+  .session.wed-session::before { background: var(--wed); }
+  .session.sat-session::before { background: var(--sat); }
+  .session.optional::before { background: var(--opt); }
+
+  .session-day {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .session-day.wed { color: var(--wed); }
+  .session-day.sat { color: var(--sat); }
+  .session-day.opt { color: var(--opt); }
+  .session-day .badge {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-weight: 400;
+    letter-spacing: 1px;
+  }
+  .session-day.wed .badge { background: rgba(99,179,237,0.15); color: var(--wed); }
+  .session-day.sat .badge { background: rgba(104,211,145,0.15); color: var(--sat); }
+  .session-day.opt .badge { background: rgba(246,173,85,0.15); color: var(--opt); }
+
+  .session-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .session ul {
+    list-style: none;
+    padding: 0;
+  }
+  .session ul li {
+    font-size: 12.5px;
+    color: var(--muted);
+    padding: 3px 0 3px 14px;
+    position: relative;
+    line-height: 1.5;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .session ul li::before {
+    content: '›';
+    position: absolute;
+    left: 0;
+    color: var(--border);
+  }
+  .session ul li strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+  .connection {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(79,209,197,0.05);
+    border-left: 2px solid rgba(79,209,197,0.3);
+    border-radius: 0 4px 4px 0;
+    font-size: 11.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(79,209,197,0.7);
+    line-height: 1.5;
+  }
+  .keymsg {
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: rgba(246,173,85,0.05);
+    border-left: 2px solid rgba(246,173,85,0.3);
+    border-radius: 0 4px 4px 0;
+    font-size: 11.5px;
+    font-family: 'JetBrains Mono', monospace;
+    color: rgba(246,173,85,0.8);
+    line-height: 1.5;
+  }
+
+  /* MONTH COLORS */
+  .m1 .month-title { color: var(--m1); }
+  .m2 .month-title { color: var(--m2); }
+  .m3 .month-title { color: var(--m3); }
+  .m4 .month-title { color: var(--m4); }
+  .m5 .month-title { color: var(--m5); }
+  .m6 .month-title { color: var(--m6); }
+
+  /* SUMMARY TABLE */
+  .summary {
+    margin-top: 60px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .summary h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 20px;
+  }
+  .summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .summary-table th {
+    text-align: left;
+    padding: 10px 14px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .summary-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .summary-table tr:last-child td { border-bottom: none; }
+  .summary-table td:first-child { color: #fff; font-weight: 700; white-space: nowrap; }
+  .m-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+
+  /* NOTE */
+  .note {
+    margin-top: 40px;
+    padding: 20px 24px;
+    background: rgba(79,209,197,0.04);
+    border: 1px solid rgba(79,209,197,0.15);
+    border-radius: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(79,209,197,0.7);
+    line-height: 1.8;
+  }
+  .note strong { color: var(--accent); }
+
+  /* WARNING */
+  .warning {
+    background: rgba(246,173,85,0.05);
+    border: 1px solid rgba(246,173,85,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: rgba(246,173,85,0.8);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .hero, .how, .container { padding-left: 20px; padding-right: 20px; }
+    .sessions-grid { grid-template-columns: 1fr; }
+    .session.optional { grid-column: 1; }
+    .how-grid { grid-template-columns: 1fr; }
+    .month-header { flex-direction: column; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-label">// 01edu · Full-Stack Engineering Track</div>
+    <h1>6-Month <span>CS-Grounded</span><br>Teaching Plan</h1>
+    <div class="hero-sub">// Go · No JavaScript · Data Structures · Algorithms · System Design</div>
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot wed"></div> Wednesday — Online · CS Theory</div>
+      <div class="legend-item"><div class="legend-dot sat"></div> Saturday — Offline · Project Application</div>
+      <div class="legend-item"><div class="legend-dot opt"></div> Optional Midweek · Mixed (Project Help or CS Practice)</div>
+    </div>
+  </div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="how">
+  <div class="how-grid">
+    <div class="how-card wed-card">
+      <div class="how-day wed">Wednesday · Online</div>
+      <p>Pure Computer Science. No project pressure. Concepts, drawing, thinking out loud, and implementing ideas from scratch in Go.</p>
+    </div>
+    <div class="how-card sat-card">
+      <div class="how-day sat">Saturday · Offline</div>
+      <p>Apply Wednesday's CS concept directly inside the 01edu project. Saturdays move at project pace — they don't wait for CS to finish.</p>
+    </div>
+    <div class="how-card opt-card">
+      <div class="how-day opt">Optional Midweek</div>
+      <p>Flexible each week — either unblock students stuck on projects, or run extra CS exercises and problem-solving practice.</p>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+
+  <!-- ═══════════════ MONTH 1 ═══════════════ -->
+  <div class="month m1">
+    <div class="month-header">
+      <div class="month-num">Month<br>01</div>
+      <div class="month-title-block">
+        <div class="month-title">Memory, Arrays & Go as a Tool</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: How computers store & access data</span>
+          <span class="theme-tag theme-proj">Project: Go CLI mastery & string/file manipulation</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">go-reloaded</span>
+          <span class="proj-tag">ascii-art</span>
+          <span class="proj-tag">ascii-art-fs</span>
+          <span class="proj-tag">ascii-art-color</span>
+          <span class="proj-tag">ascii-art-output</span>
+          <span class="proj-tag">ascii-reverse</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — Memory & Arrays</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">How Computers Store Data</div>
+          <ul>
+            <li>Bits and bytes — the smallest unit of storage</li>
+            <li>Memory addresses — what a variable actually is under the hood</li>
+            <li>The array: contiguous memory block, index-based O(1) access</li>
+            <li>Why access is O(1): address = base + (index × size)</li>
+            <li>Static vs dynamic arrays — how Go slices extend arrays</li>
+            <li><strong>Live exercise:</strong> Draw memory layout for [5]int and []int on the board</li>
+          </ul>
+          <div class="keymsg">Every data structure you will ever learn is built on top of this.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Go Foundations & go-reloaded Intro</div>
+          <ul>
+            <li>Go workspace, go run vs go build, package structure</li>
+            <li>Variables, types, zero values, short declaration</li>
+            <li>Slices in Go — length, capacity, append, memory growth</li>
+            <li>Introduction to go-reloaded spec — reading it together</li>
+          </ul>
+          <div class="connection">Connection: "A Go string is literally a read-only slice of bytes in memory"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Array-Based Stack Exercise</div>
+          <ul><li>Implement a fixed-size stack from scratch in Go using arrays only — no slices allowed</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Strings, Number Systems & ASCII</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Strings are Just Arrays</div>
+          <ul>
+            <li>A string is an array of bytes — nothing magic about it</li>
+            <li>Number systems: binary (base 2), hex (base 16), decimal (base 10)</li>
+            <li>Converting between bases manually — the algorithm behind strconv</li>
+            <li>ASCII: the 128-character table — text is just numbers in memory</li>
+            <li>Unicode & UTF-8: why len("مرحبا") ≠ 5 in Go — bytes vs runes</li>
+            <li><strong>Live exercise:</strong> Convert "hello" to ASCII decimals by hand, then verify in Go</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">String Manipulation in Go</div>
+          <ul>
+            <li>strings package: Contains, Replace, Split, ToUpper, ToLower, TrimSpace</li>
+            <li>Rune iteration with range — the safe way to walk a string</li>
+            <li>strconv.ParseInt with base parameter — applying Monday's number systems</li>
+            <li>Building hex/binary conversion for go-reloaded</li>
+          </ul>
+          <div class="connection">Connection: "You're not using magic functions — you're applying base conversion algorithms"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Number System Coding Challenge</div>
+          <ul><li>Write your own intToBase(n int, base int) string function without using strconv</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — Complexity & Algorithm Thinking</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Big-O Notation</div>
+          <ul>
+            <li>What complexity measures: how does work grow as input grows?</li>
+            <li>O(1), O(n), O(n²), O(log n), O(n log n) — drawn step by step</li>
+            <li>Time complexity vs space complexity — both matter</li>
+            <li>How to analyze a loop, a nested loop, a function call</li>
+            <li>Best case vs worst case vs average case</li>
+            <li><strong>Live exercise:</strong> Analyze the complexity of 5 code snippets together</li>
+          </ul>
+          <div class="keymsg">This is the language of technical interviews. You must speak it fluently.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">File I/O & Argument Parsing in Go</div>
+          <ul>
+            <li>os.ReadFile, os.WriteFile, os.Open — when to use each</li>
+            <li>Error handling in Go — the error interface, never ignore errors</li>
+            <li>os.Args and the flag package — --output, --reverse, --color flags</li>
+            <li>Completing go-reloaded: punctuation rules, a → an correction</li>
+          </ul>
+          <div class="connection">Connection: "How efficient is your string-scanning approach? What's its complexity?"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">go-reloaded Unblocking Session</div>
+          <ul><li>Students stuck on edge cases or ascii-art banner file parsing — guided debugging</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Problem Decomposition & Testing</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">How to Break Down a Problem</div>
+          <ul>
+            <li>Decomposition: splitting a big problem into small sub-problems</li>
+            <li>Iterative vs recursive thinking — the difference and when to choose</li>
+            <li>Recursion: base case, recursive case, call stack visualization</li>
+            <li>When recursion is elegant vs when it's a trap (stack overflow)</li>
+            <li><strong>Live exercise:</strong> Solve string reversal both iteratively and recursively, compare</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Unit Testing & Clean Code in Go</div>
+          <ul>
+            <li>go test, _test.go files, testing.T, t.Errorf</li>
+            <li>Table-driven tests — the Go-idiomatic way</li>
+            <li>What to test: edge cases, empty input, boundary values</li>
+            <li>Clean code: naming conventions, function length, when comments help</li>
+            <li>Group code review — students share code, critique together</li>
+          </ul>
+          <div class="connection">Connection: "A test is just a decomposed problem. Each test case is a sub-problem."</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Recursion Problems</div>
+          <ul><li>Fibonacci, power function, palindrome check — implement and analyze complexity</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 1 -->
+
+  <!-- ═══════════════ MONTH 2 ═══════════════ -->
+  <div class="month m2">
+    <div class="month-header">
+      <div class="month-num">Month<br>02</div>
+      <div class="month-title-block">
+        <div class="month-title">Stacks, Queues, Linked Lists & The Web</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: Linear data structures & how they model real systems</span>
+          <span class="theme-tag theme-proj">Project: HTTP servers, HTML templates, CSS, Docker</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">ascii-art-web</span>
+          <span class="proj-tag">ascii-art-stylize</span>
+          <span class="proj-tag">ascii-art-web-export</span>
+          <span class="proj-tag">ascii-art-web-dockerize</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — The Stack</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Stack Data Structure</div>
+          <ul>
+            <li>Stack: Last In, First Out (LIFO) — the plate analogy</li>
+            <li>Core operations: push, pop, peek, isEmpty — all O(1)</li>
+            <li>How the call stack works — every function call is a push, every return is a pop</li>
+            <li>Real applications: undo/redo, browser back button, balanced brackets</li>
+            <li>Implement a stack in Go from scratch using a slice</li>
+            <li><strong>Live exercise:</strong> Solve the balanced parentheses problem using a stack</li>
+          </ul>
+          <div class="keymsg">The call stack is why recursion can overflow — you're pushing too many frames.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">How the Web Works & First Go Server</div>
+          <ul>
+            <li>The request-response cycle — what actually happens between browser and server</li>
+            <li>HTTP methods: GET vs POST — purpose and differences</li>
+            <li>HTTP status codes: 200, 400, 404, 500 — meaning, not just numbers</li>
+            <li>net/http: HandleFunc, ListenAndServe, WriteHeader, http.Error</li>
+            <li>Routing: handling different paths cleanly in Go</li>
+            <li>Introduction to ascii-art-web project</li>
+          </ul>
+          <div class="connection">Connection: "An HTTP server processes requests like a stack — each request has its own call stack"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Browser History Simulator</div>
+          <ul><li>Implement a simple browser history back/forward system using two stacks in Go</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Queue & Linked List Intro</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Queue & Introduction to Linked Lists</div>
+          <ul>
+            <li>Queue: First In, First Out (FIFO) — the real-world queue analogy</li>
+            <li>Core operations: enqueue, dequeue, front — all O(1) correct implementation</li>
+            <li>Linked List: the fundamental node-pointer structure</li>
+            <li>Singly linked list: data + next pointer — drawing nodes and connections</li>
+            <li>Why insertion at head is O(1) but access by index is O(n)</li>
+            <li>Comparison: Array vs Linked List vs Queue vs Stack — tradeoffs table</li>
+            <li><strong>Live exercise:</strong> Implement a queue using two stacks</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Go HTML Templates & Forms</div>
+          <ul>
+            <li>html/template: {{.}}, {{if}}, {{range}}, {{define}}, {{block}}</li>
+            <li>Passing structs and slices from Go handlers to templates</li>
+            <li>HTML forms: form, input, textarea, select, radio</li>
+            <li>Reading POST data: r.FormValue, r.ParseForm</li>
+            <li>Server-side validation and returning errors to the template</li>
+          </ul>
+          <div class="connection">Connection: "A web request queue — the server processes requests in order per goroutine"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">ascii-art-web Main Page</div>
+          <ul><li>Students building the ascii-art-web main page and form — guided debugging session</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — Linked Lists Deep Dive</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Linked Lists: Operations & Variants</div>
+          <ul>
+            <li>Singly vs doubly linked list — when the extra prev pointer pays off</li>
+            <li>Insert at head: O(1) · Insert at tail: O(n) singly, O(1) doubly</li>
+            <li>Delete a node: O(n) to find, O(1) to remove</li>
+            <li>Circular linked lists — where tail points back to head</li>
+            <li>Memory: linked list nodes scattered in heap vs array contiguous block</li>
+            <li><strong>Live exercise:</strong> Implement a doubly linked list with insert, delete, and print</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">CSS & Responsive Design</div>
+          <ul>
+            <li>CSS selectors, box model, display types (block, inline, flex)</li>
+            <li>Flexbox and CSS Grid — practical layout tools</li>
+            <li>@media queries — responsive design without JavaScript</li>
+            <li>Serving static files in Go: http.FileServer, http.StripPrefix</li>
+            <li>Applying to ascii-art-stylize: consistency, readability, user feedback</li>
+          </ul>
+          <div class="connection">Connection: "A CSS flexbox row is like a linked list — elements connected in order, rearranged by rules"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Linked List Problems</div>
+          <ul><li>Reverse a linked list in-place · Detect a cycle using Floyd's algorithm</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Recursion Applied & Docker</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Recursion: Thinking Recursively</div>
+          <ul>
+            <li>Recursion revisited — now with data structures context</li>
+            <li>Memoization: caching recursive results — intro to dynamic programming</li>
+            <li>Tail recursion and why Go doesn't optimize it</li>
+            <li>When to choose recursion: tree traversal, divide-and-conquer</li>
+            <li><strong>Live exercise:</strong> Merge sort — implement recursively, analyze O(n log n)</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">File Export & Docker</div>
+          <ul>
+            <li>HTTP headers for file download: Content-Disposition, Content-Type, Content-Length</li>
+            <li>Writing downloadable content from a Go endpoint — ascii-art-web-export</li>
+            <li>Docker: images vs containers — the mental model</li>
+            <li>Writing a Dockerfile: FROM, COPY, RUN, CMD, EXPOSE</li>
+            <li>Build, run, inspect logs — ascii-art-web-dockerize</li>
+          </ul>
+          <div class="connection">Connection: "Docker layers are built recursively — each instruction builds on the previous one"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">Dockerizing the Web App</div>
+          <ul><li>Debugging container issues, file permissions, path problems inside Docker</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 2 -->
+
+  <!-- ═══════════════ MONTH 3 ═══════════════ -->
+  <div class="month m3">
+    <div class="month-header">
+      <div class="month-num">Month<br>03</div>
+      <div class="month-title-block">
+        <div class="month-title">Hash Maps, Trees & Searching</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: Non-linear data structures & efficient searching</span>
+          <span class="theme-tag theme-proj">Project: APIs, JSON, data-driven UIs, filtering</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">groupie-tracker</span>
+          <span class="proj-tag">groupie-tracker-visualizations</span>
+          <span class="proj-tag">groupie-tracker-search-bar</span>
+          <span class="proj-tag">groupie-tracker-filters</span>
+          <span class="proj-tag">groupie-tracker-geolocalization</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — Hash Tables</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Hash Functions & Hash Tables</div>
+          <ul>
+            <li>The problem hash tables solve: O(n) array search is too slow</li>
+            <li>What is a hash function? Deterministic, fast, uniform distribution</li>
+            <li>Hash table structure: array of buckets + hash function to pick the bucket</li>
+            <li>Collisions: why they happen — chaining vs open addressing</li>
+            <li>Average O(1) insert/lookup/delete — and when it degrades to O(n)</li>
+            <li>Go maps under the hood — they are hash tables</li>
+            <li><strong>Live exercise:</strong> Implement a simple hash table with chaining in Go</li>
+          </ul>
+          <div class="keymsg">Every time you use a Go map, this is what runs underneath.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">REST APIs & JSON in Go</div>
+          <ul>
+            <li>What is a REST API? Resources, endpoints, HTTP verbs, status codes</li>
+            <li>http.Get, http.Client — making requests from Go</li>
+            <li>json.NewDecoder, json.Unmarshal, struct tags json:"name"</li>
+            <li>Reading the groupie-tracker API documentation</li>
+            <li>Fetching and printing artist data in Go</li>
+          </ul>
+          <div class="connection">Connection: "JSON objects are essentially hash maps — key-value pairs"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Hash Map Problem</div>
+          <ul><li>Find duplicates in a list using a hash map. Measure time vs naive O(n²) approach.</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Maps in Practice & Data Modeling</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Hash Map Operations & When to Use Them</div>
+          <ul>
+            <li>Insert, lookup, delete — implementing them step by step</li>
+            <li>Maps vs slices: when each wins — access pattern determines the choice</li>
+            <li>Sets: implementing a set using map[string]struct{} in Go</li>
+            <li>Frequency counting — the most common hash map pattern in real code</li>
+            <li><strong>Live exercise:</strong> Count city appearances in concert locations using a map</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Data Modeling & Displaying Data</div>
+          <ul>
+            <li>Designing Go structs that match the API JSON structure</li>
+            <li>Nested structs, slices of structs, maps in Go</li>
+            <li>Why you don't call the API on every request — in-memory caching</li>
+            <li>Passing slices and maps to HTML templates with {{range}}</li>
+            <li>Building card layouts in HTML/CSS for groupie-tracker</li>
+          </ul>
+          <div class="connection">Connection: "The relation object IS a hash map — artist ID maps to locations and dates"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">groupie-tracker Display Page</div>
+          <ul><li>Students building the main groupie-tracker display — guided debugging session</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — Sorting & Searching</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Sorting Algorithms</div>
+          <ul>
+            <li>Why sorting matters: many problems become trivial on sorted data</li>
+            <li>Bubble sort: O(n²) — understand it, then forget it</li>
+            <li>Merge sort: divide and conquer, O(n log n) — implement it, understand why it's fast</li>
+            <li>Quick sort: O(n log n) average — pivot selection matters</li>
+            <li>Go's sort.Slice — how to use it and what it runs underneath</li>
+            <li>Binary search: O(log n) — only works on sorted data</li>
+            <li><strong>Live exercise:</strong> Implement merge sort and binary search from scratch</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Search Logic in Go</div>
+          <ul>
+            <li>Case-insensitive search: strings.ToLower + strings.Contains</li>
+            <li>Searching across multiple fields simultaneously</li>
+            <li>Autocomplete/typing suggestions: a dedicated Go endpoint, no JavaScript</li>
+            <li>Identifying and labeling suggestion types (member, artist, location)</li>
+            <li>groupie-tracker-search-bar implementation</li>
+          </ul>
+          <div class="connection">Connection: "Your search scans a slice — O(n). If sorted, you could binary search."</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Binary Search Problems</div>
+          <ul><li>Implement binary search · Find first and last position of a target in a sorted array</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Trees & Concurrency Intro</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Binary Trees</div>
+          <ul>
+            <li>Tree terminology: root, parent, child, leaf, height, depth</li>
+            <li>Binary tree: every node has at most 2 children</li>
+            <li>Tree traversal: in-order, pre-order, post-order — drawn step by step</li>
+            <li>Binary Search Tree (BST): left &lt; root &lt; right — O(log n) search on dynamic data</li>
+            <li>Why balance matters: degenerate BST becomes a linked list — O(n)</li>
+          </ul>
+          <div class="keymsg">Trees are everywhere — your file system, database indexes, and HTML DOM are all trees.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Filtering, Goroutines & Geolocalization</div>
+          <ul>
+            <li>Range filters: min/max from form inputs; checkboxes via r.Form["key"]</li>
+            <li>Combining filters: AND logic — all conditions must pass</li>
+            <li>Edge cases: no results, partial match, filter reset</li>
+            <li>Goroutines & sync.WaitGroup — concurrent API calls</li>
+            <li>go test -race — detecting race conditions</li>
+            <li>Maps API integration — geocoding addresses to coordinates</li>
+          </ul>
+          <div class="connection">Connection: "A filter tree: each condition is a node, all must evaluate true"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">Filters + Geolocalization</div>
+          <ul><li>Debugging filter logic and Maps API integration issues</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 3 -->
+
+  <!-- ═══════════════ MONTH 4 ═══════════════ -->
+  <div class="month m4">
+    <div class="month-header">
+      <div class="month-num">Month<br>04</div>
+      <div class="month-title-block">
+        <div class="month-title">Graphs, Pathfinding & Algorithm Design</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: Graph theory and algorithmic problem solving</span>
+          <span class="theme-tag theme-proj">Project: lem-in — the hardest project in the curriculum</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">lem-in</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="warning">⚠ One project, all month. Go deep. This month is the biggest signal to any employer that a student thinks like an engineer.</div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — Graph Theory</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Graphs: The Universal Data Structure</div>
+          <ul>
+            <li>What is a graph? Vertices (nodes) + edges (connections)</li>
+            <li>Directed vs undirected — weighted vs unweighted graphs</li>
+            <li>Graph representations: adjacency matrix vs adjacency list — space tradeoffs</li>
+            <li>Degree of a vertex, connected components, cycles</li>
+            <li>Real-world graphs: social networks, maps, the internet, an ant colony</li>
+            <li><strong>Live exercise:</strong> Draw lem-in's colony as a graph. Which representation fits best?</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">lem-in: Problem Decomposition & Input Parsing</div>
+          <ul>
+            <li>Reading the spec carefully — identifying all sub-problems</li>
+            <li>Input parsing: detecting ##start, ##end, comments, rooms, tunnels</li>
+            <li>Building the graph in Go: map[string][]string adjacency list</li>
+            <li>Error handling design: all invalid data format cases</li>
+          </ul>
+          <div class="connection">Connection: "You're implementing exactly the adjacency list you drew on the board"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Graph Connectivity Problems</div>
+          <ul><li>Given a graph, detect if it's connected · Count the number of connected components</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Breadth-First Search</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Breadth-First Search (BFS)</div>
+          <ul>
+            <li>BFS: explore all neighbors at current depth before going deeper</li>
+            <li>The queue is BFS's engine — connecting back to Month 2</li>
+            <li>BFS guarantees shortest path in an unweighted graph — prove it on the board</li>
+            <li>BFS complexity: O(V + E) — vertices + edges</li>
+            <li>Step-by-step BFS trace: draw the visited order by hand</li>
+            <li><strong>Live exercise:</strong> Implement BFS in Go from scratch — pure algorithm, no project context</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Implementing BFS for lem-in</div>
+          <ul>
+            <li>BFS applied to the colony graph — finding shortest path from ##start to ##end</li>
+            <li>Storing the path: tracking parent nodes to reconstruct the route</li>
+            <li>Edge cases: no path exists, rooms that loop, one-room colony</li>
+            <li>Printing paths correctly</li>
+          </ul>
+          <div class="connection">Connection: "Every line of this code maps directly to what you drew on the board Wednesday"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">BFS Debugging Session</div>
+          <ul><li>Debugging BFS path reconstruction issues in lem-in</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — DFS & Multiple Paths</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Depth-First Search & Multiple Paths</div>
+          <ul>
+            <li>DFS: go as deep as possible before backtracking — uses a stack or recursion</li>
+            <li>DFS vs BFS: when to use each — cycle detection, maze solving, topological sort</li>
+            <li>Finding multiple paths: why you need to explore beyond the first</li>
+            <li>Non-overlapping paths: max-flow concept at a conceptual level</li>
+            <li>The optimization question: N ants + K paths of different lengths → fastest assignment</li>
+            <li><strong>Live exercise:</strong> DFS implementation, then "find all paths between two nodes"</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Multiple Paths, Ant Assignment & Output</div>
+          <ul>
+            <li>Finding multiple non-overlapping paths in the colony</li>
+            <li>Path selection algorithm: assigning ants to paths by length and ant count</li>
+            <li>The turn-based movement loop: one step per ant per turn</li>
+            <li>Constraints: one ant per room, one tunnel use per turn</li>
+            <li>Output formatting: L1-room L2-room per turn, only moved ants</li>
+          </ul>
+          <div class="connection">Connection: "You're implementing the multi-path flow concept from Wednesday"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Topological Sort</div>
+          <ul><li>What is topological sort, when it's used, and implement it in Go</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Complexity Deep Dive & Interview Thinking</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Algorithm Analysis & Interview Preparation</div>
+          <ul>
+            <li>Full complexity review: O(1), O(log n), O(n), O(n log n), O(n²), O(2ⁿ)</li>
+            <li>Space complexity: auxiliary space, in-place algorithms</li>
+            <li>How to talk about an algorithm in an interview: approach → complexity → tradeoffs</li>
+            <li>"Why BFS not DFS for shortest path?" — practice answering out loud</li>
+            <li>Common interview patterns: two pointers, sliding window, divide and conquer</li>
+            <li><strong>Live exercise:</strong> Students analyze their own lem-in solution's complexity</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Stress Testing & Mock Algorithm Interview</div>
+          <ul>
+            <li>Edge cases: 1 ant, 1000 ants, 1 path, 10 paths, no path</li>
+            <li>Writing test files that cover all edge cases</li>
+            <li>Students explain their lem-in solution out loud — mock interview format</li>
+            <li>"What's your time complexity?" · "Why this path selection approach?" · "What breaks your solution?"</li>
+          </ul>
+          <div class="keymsg">You solved a graph problem, implemented BFS, and optimized a scheduling algorithm. That's senior-level thinking.</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Extra Algorithm Problems</div>
+          <ul><li>Shortest path in a weighted graph (Dijkstra preview) · Cycle detection in a directed graph</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 4 -->
+
+  <!-- ═══════════════ MONTH 5 ═══════════════ -->
+  <div class="month m5">
+    <div class="month-header">
+      <div class="month-num">Month<br>05</div>
+      <div class="month-title-block">
+        <div class="month-title">Relational Data, Authentication & Security</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: Database theory, cryptography fundamentals, network security</span>
+          <span class="theme-tag theme-proj">Project: Full-stack forum with auth, sessions, and HTTPS</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">forum</span>
+          <span class="proj-tag">forum-security</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — Relational Model & Database Theory</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">The Relational Data Model</div>
+          <ul>
+            <li>Set theory: a table is mathematically a relation — a set of tuples</li>
+            <li>Normalization: 1NF, 2NF, 3NF — why redundant data is dangerous</li>
+            <li>Primary keys, foreign keys, referential integrity</li>
+            <li>ERDs: Entity Relationship Diagrams — drawing forum schema together</li>
+            <li>Indexing: without an index, SELECT is O(n). With B-tree index, O(log n)</li>
+            <li>B-trees: like binary trees but more branching — same idea, database scale</li>
+            <li><strong>Live exercise:</strong> Design the forum database schema on the board</li>
+          </ul>
+          <div class="keymsg">A bad database schema is the hardest bug to fix later.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">SQLite & SQL in Go</div>
+          <ul>
+            <li>database/sql package + go-sqlite3 driver</li>
+            <li>Core queries: CREATE TABLE, INSERT, SELECT, WHERE, JOIN</li>
+            <li>Prepared statements — preventing SQL injection</li>
+            <li>Scanning rows into Go structs</li>
+            <li>Transactions: atomicity — everything commits or nothing does</li>
+          </ul>
+          <div class="connection">Connection: "A JOIN is literally a set intersection between two tables"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Complex SQL Queries</div>
+          <ul><li>Practice multi-table JOINs, aggregate functions (COUNT, SUM, GROUP BY), and subqueries</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Authentication Theory</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Cryptography Fundamentals</div>
+          <ul>
+            <li>Why cryptography: confidentiality, integrity, authenticity</li>
+            <li>Symmetric vs asymmetric encryption — the key exchange problem</li>
+            <li>Hash functions: one-way, deterministic, avalanche effect</li>
+            <li>Why hash functions for passwords? You only compare — never reverse</li>
+            <li>Rainbow tables and salting: why bcrypt is better than SHA-256 for passwords</li>
+            <li>What TLS/SSL actually does: handshake, certificate, key exchange</li>
+          </ul>
+          <div class="keymsg">Cryptography is applied mathematics. You don't implement it — you understand it.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Sessions, Cookies & User Auth in Go</div>
+          <ul>
+            <li>HTTP is stateless — cookies are how we fake statefulness</li>
+            <li>Session flow: register → hash → store → login → session → cookie → validate</li>
+            <li>http.SetCookie, r.Cookie in Go</li>
+            <li>bcrypt.GenerateFromPassword, bcrypt.CompareHashAndPassword</li>
+            <li>Cookie security flags: HttpOnly, Secure, expiration</li>
+          </ul>
+          <div class="connection">Connection: "bcrypt is doing exactly what we discussed — hashing with a salt, cost factor included"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">Auth Flow Debugging</div>
+          <ul><li>Session management issues, cookie handling, registration/login edge cases</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — Building the Forum</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Concurrency Theory</div>
+          <ul>
+            <li>Processes vs threads vs goroutines — the OS-level difference</li>
+            <li>Shared memory: why it's dangerous — race conditions visualized</li>
+            <li>Mutex: mutual exclusion — only one goroutine touches shared data at a time</li>
+            <li>Deadlock: two goroutines waiting for each other — how it happens, how to avoid</li>
+            <li>Channels: Go's way of communicating without sharing memory</li>
+          </ul>
+          <div class="keymsg">Go was built for concurrency. Most languages add it as an afterthought.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Forum CRUD & Docker</div>
+          <ul>
+            <li>CRUD: posts, comments, likes — all through SQL + Go handlers</li>
+            <li>Route design: GET /, POST /post/create, GET /post/{id}</li>
+            <li>Authorization middleware: checking session before write actions</li>
+            <li>Likes/dislikes: many-to-many table + toggling logic</li>
+            <li>Docker for the forum: multi-stage build, SQLite volume persistence</li>
+          </ul>
+          <div class="connection">Connection: "Your middleware runs in a goroutine per request — shared DB access needs care"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Concurrency Exercise</div>
+          <ul><li>Producer-consumer problem using goroutines and channels in Go</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Security</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Network Security & Attack Vectors</div>
+          <ul>
+            <li>HTTPS: why plain HTTP is dangerous — man-in-the-middle attacks</li>
+            <li>SQL injection: inserting SQL into form fields — prepared statements block it</li>
+            <li>CSRF: Cross-Site Request Forgery — tricking a logged-in user's browser</li>
+            <li>Session hijacking: stealing cookies — HttpOnly + Secure flags prevent it</li>
+            <li>Brute force: repeated login attempts — rate limiting stops it</li>
+            <li>Rate limiting theory: token bucket algorithm — tokens refill at rate R, max burst B</li>
+            <li>Defense in depth: no single security measure is enough</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">HTTPS, Rate Limiting & UUIDs</div>
+          <ul>
+            <li>Generating a self-signed SSL certificate with openssl</li>
+            <li>http.ListenAndServeTLS in Go</li>
+            <li>Implementing rate limiting: token bucket approach per IP address</li>
+            <li>UUIDs for session IDs: gofrs/uuid — why sequential IDs are dangerous</li>
+            <li>forum-security full implementation</li>
+          </ul>
+          <div class="connection">Connection: "You're implementing exactly the defenses we described — not blindly, but understanding why"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">HTTPS & Rate Limiter Debugging</div>
+          <ul><li>HTTPS setup issues, certificate errors, rate limiter edge cases</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 5 -->
+
+  <!-- ═══════════════ MONTH 6 ═══════════════ -->
+  <div class="month m6">
+    <div class="month-header">
+      <div class="month-num">Month<br>06</div>
+      <div class="month-title-block">
+        <div class="month-title">Advanced Patterns, System Design & Job Readiness</div>
+        <div class="month-themes">
+          <span class="theme-tag theme-cs">CS: Access control, protocols, event-driven architecture</span>
+          <span class="theme-tag theme-proj">Project: Forum advanced features + OAuth + getting hired</span>
+        </div>
+        <div class="projects-list">
+          <span class="proj-tag">forum-moderation</span>
+          <span class="proj-tag">authentication</span>
+          <span class="proj-tag">forum-advanced-features</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 1 -->
+    <div class="week">
+      <div class="week-label">Week 1 — Access Control Theory</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Access Control Models</div>
+          <ul>
+            <li>DAC (Discretionary): owner decides permissions — your laptop files</li>
+            <li>MAC (Mandatory): the system enforces — military clearance levels</li>
+            <li>RBAC (Role-Based): permissions assigned to roles, not individuals — most web apps</li>
+            <li>Permission matrix: drawing the forum's 4 roles × actions table on the board</li>
+            <li>Principle of least privilege: every user gets only what they need</li>
+            <li>How RBAC maps to database design: users.role + middleware checks</li>
+          </ul>
+          <div class="keymsg">Every serious application has an access control model. Know the theory behind what you build.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Implementing RBAC in the Forum</div>
+          <ul>
+            <li>Role middleware: checking user.role before executing sensitive handlers</li>
+            <li>Admin-only routes: category management, user promotion/demotion</li>
+            <li>Moderator routes: delete posts, report to admin, review queue</li>
+            <li>Report system: reports table, moderation workflow</li>
+            <li>Soft delete: deleted_at column — don't destroy data permanently in production</li>
+          </ul>
+          <div class="connection">Connection: "Your middleware implements exactly the RBAC permission matrix from the board"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">Audit Log Design</div>
+          <ul><li>How to track every action in a system — why it matters for security and debugging</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 2 -->
+    <div class="week">
+      <div class="week-label">Week 2 — Protocol Design & OAuth</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">How Protocols Work & OAuth 2.0</div>
+          <ul>
+            <li>What is a protocol? A formal agreement on how two parties communicate</li>
+            <li>HTTP as a protocol — headers, methods, status codes are all protocol rules</li>
+            <li>OAuth 2.0 flow traced step by step: app → provider → approval → code → token → user info</li>
+            <li>Why the code exchange happens server-side: the secret never touches the browser</li>
+            <li>Tokens vs cookies — different security models, different use cases</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Google & GitHub OAuth in Go</div>
+          <ul>
+            <li>Registering an app on Google Console and GitHub OAuth settings</li>
+            <li>The callback endpoint: handling the redirect after user approval</li>
+            <li>Exchanging the authorization code for an access token</li>
+            <li>Fetching user profile from Google/GitHub API</li>
+            <li>Merging OAuth users with the existing users table</li>
+          </ul>
+          <div class="connection">Connection: "You're implementing the protocol flow we traced on the board — step by step"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Project Help</span></div>
+          <div class="session-title">OAuth Debugging Session</div>
+          <ul><li>Callback issues, token handling, provider API response parsing</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 3 -->
+    <div class="week">
+      <div class="week-label">Week 3 — Real-Time Patterns & Activity Systems</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">Event-Driven Architecture & Notification Systems</div>
+          <ul>
+            <li>Event-driven design: components communicate through events, not direct calls</li>
+            <li>Observer pattern: subscribers notified when something they watch changes</li>
+            <li>Notifications without JS: database-backed approach — store events, display on page load</li>
+            <li>Polling vs Server-Sent Events (SSE) — tradeoffs for web apps in Go</li>
+            <li>Activity tracking: aggregating a user's actions into a unified view</li>
+            <li>Notifications table design: user_id, type, reference_id, read, created_at</li>
+          </ul>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Notifications, Activity Tracking & Content Ownership</div>
+          <ul>
+            <li>Notifications triggered on: post liked, post commented — insert to notifications table</li>
+            <li>Unread notification count: queried on every page load via middleware</li>
+            <li>Activity page: user's posts, liked posts, comments — multi-JOIN SQL query</li>
+            <li>Edit flow: GET pre-fills form, POST updates DB with ownership check</li>
+            <li>Soft delete for posts/comments: deleted_at pattern</li>
+          </ul>
+          <div class="connection">Connection: "You chose the database-polling approach — simple, reliable, no extra infrastructure"</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Practice</span></div>
+          <div class="session-title">System Design Intro</div>
+          <ul><li>How would you design Twitter? YouTube? The forum at 1 million users? — open discussion</li></ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- WEEK 4 -->
+    <div class="week">
+      <div class="week-label">Week 4 — Job Readiness</div>
+      <div class="sessions-grid">
+        <div class="session wed-session">
+          <div class="session-day wed">Wednesday <span class="badge">Online · CS</span></div>
+          <div class="session-title">What the Industry Actually Tests</div>
+          <ul>
+            <li>Technical interview structure: algorithm round, system design, behavioral</li>
+            <li>How to approach an unknown problem live: repeat → brute force → optimize → code → trace</li>
+            <li>System design vocabulary: scale, stateless services, caching, DB indexing</li>
+            <li>Full complexity cheat sheet review — every structure and algorithm from 6 months</li>
+            <li><strong>Live exercise:</strong> Solve two problems under time pressure, explain decisions out loud</li>
+          </ul>
+          <div class="keymsg">You have the foundation. What you need now is confidence and practice.</div>
+        </div>
+        <div class="session sat-session">
+          <div class="session-day sat">Saturday <span class="badge">Offline · Project</span></div>
+          <div class="session-title">Portfolio Polish & Mock Technical Interview</div>
+          <ul>
+            <li>GitHub hygiene: pinned projects, profile bio, meaningful commit messages</li>
+            <li>Every project README: description, how to run, tech stack, what you learned</li>
+            <li><strong>Mock interview questions:</strong></li>
+            <li>"How does BFS work? Walk me through your lem-in solution."</li>
+            <li>"What's the difference between a stack and a queue?"</li>
+            <li>"Explain how sessions and cookies work."</li>
+            <li>"What is SQL injection and how did you prevent it?"</li>
+            <li>"What's a goroutine? Channel vs mutex — when to use each?"</li>
+            <li>"Walk me through your forum's database schema."</li>
+            <li>"What does Docker solve?"</li>
+          </ul>
+          <div class="keymsg">You understand memory, data structures, algorithms, databases, security, and system design basics. That is not a beginner. That is an engineer.</div>
+        </div>
+        <div class="session optional">
+          <div class="session-day opt">Optional Midweek <span class="badge">Mixed</span></div>
+          <div class="session-title">Student-Chosen Revision Session</div>
+          <ul><li>Students pick the CS topic they felt weakest on — we revisit it together as a group</li></ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /month 6 -->
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <h2>Plan Summary</h2>
+    <table class="summary-table">
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>CS Foundation</th>
+          <th>Project Application</th>
+          <th>Key Skill Unlocked</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m1)"></span>01</td>
+          <td>Memory, Arrays, Big-O, Recursion</td>
+          <td>go-reloaded, ascii-art series</td>
+          <td style="color:var(--m1)">Think in data, not just code</td>
+        </tr>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m2)"></span>02</td>
+          <td>Stack, Queue, Linked List</td>
+          <td>ascii-art-web, Docker</td>
+          <td style="color:var(--m2)">Model real systems with structures</td>
+        </tr>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m3)"></span>03</td>
+          <td>Hash Maps, Trees, Sorting</td>
+          <td>groupie-tracker series</td>
+          <td style="color:var(--m3)">Choose the right structure for the job</td>
+        </tr>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m4)"></span>04</td>
+          <td>Graphs, BFS, DFS, Flow</td>
+          <td>lem-in</td>
+          <td style="color:var(--m4)">Solve hard problems methodically</td>
+        </tr>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m5)"></span>05</td>
+          <td>Relational Model, Crypto, Concurrency</td>
+          <td>forum, forum-security</td>
+          <td style="color:var(--m5)">Build secure production systems</td>
+        </tr>
+        <tr>
+          <td><span class="m-dot" style="background:var(--m6)"></span>06</td>
+          <td>RBAC, Protocols, Event Design</td>
+          <td>forum-moderation, auth, advanced</td>
+          <td style="color:var(--m6)">Think like a senior, communicate like one</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>// Zero JavaScript across all 6 months.</strong> All dynamic behavior is handled through Go handlers, HTML forms, and CSS. Students hit the JS piscine in Month 7 already thinking like backend engineers — which makes them far more powerful when they get there.
+    </div>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>
