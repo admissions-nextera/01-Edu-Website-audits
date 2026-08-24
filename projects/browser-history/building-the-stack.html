@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Step 1: Build the History type - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="starter-structure.html">&larr; Starter file structure</a></p>
+
+<h1>Step 1: Build the History type</h1>
+
+<p>
+Work through <code>history.go</code> method by method. Don't move on to
+the handlers until these pass your own manual testing (write a quick
+<code>main</code> that calls them directly, or a real <code>_test.go</code>
+if you're comfortable with Go's testing package).
+</p>
+
+<h2>Visit</h2>
+<p>Three things happen, in this order &mdash; get the order right:</p>
+<ol>
+<li>The <em>current</em> URL (before this visit) gets pushed onto the back stack.</li>
+<li>The current URL becomes the one passed in.</li>
+<li>The forward stack is cleared.</li>
+</ol>
+<p>
+Ask yourself: what would break if you cleared the forward stack
+<em>before</em> pushing to back instead of after? (Nothing, actually
+&mdash; but what would break if you updated <code>current</code>
+<em>before</em> pushing the old value to <code>back</code>? Trace through
+it.)
+</p>
+
+<h2>Back</h2>
+<p>Guard the empty case first, before touching anything:</p>
+<ul>
+<li>If <code>back</code> is empty, return <code>"", false</code> immediately.</li>
+<li>Otherwise: the current URL needs to go somewhere before you overwrite it &mdash; where?</li>
+<li>Pop the top of <code>back</code>. That popped value becomes the new current.</li>
+</ul>
+<p>
+This is the operation where a subtle bug is easy to introduce: forgetting
+to save the current URL onto <code>forward</code> before overwriting it.
+If you skip that step, <code>Forward()</code> will have nothing to work
+with even though the user clearly has somewhere to go forward to.
+</p>
+
+<h2>Forward</h2>
+<p>
+This should look like a mirror image of <code>Back</code>, with
+<code>back</code> and <code>forward</code> swapped. If your
+<code>Back</code> and <code>Forward</code> implementations don't look like
+near-mirrors of each other, that's worth pausing on &mdash; it usually
+means one of them has a bug the other doesn't.
+</p>
+
+<h2>Current and Snapshot</h2>
+<p>
+Straightforward reads. The only thing worth thinking about: should these
+also take the mutex lock? (Yes &mdash; see the concurrency requirement in
+the spec chapter. A read racing with a concurrent write is still a race.)
+</p>
+
+<h2>The mutex</h2>
+<p>
+Every method that touches <code>h.back</code>, <code>h.current</code>, or
+<code>h.forward</code> &mdash; reads included &mdash; needs to hold
+<code>h.mu</code> for the duration. The standard pattern:
+</p>
+<pre><code>func (h *History) Visit(url string) {
+    h.mu.Lock()
+    defer h.mu.Unlock()
+    // ...
+}
+</code></pre>
+<p>
+Using <code>defer</code> for the unlock means you can't forget to release
+the lock on an early return, which matters a lot here since
+<code>Back</code>/<code>Forward</code> both have an early-return path for
+the empty-stack case.
+</p>
+
+<h2>Self-check before moving on</h2>
+<p>
+Trace through this sequence by hand and write down what <code>Current()</code>
+should return after each step, before you test it in code:
+</p>
+<pre><code>Visit("a")
+Visit("b")
+Visit("c")
+Back()
+Back()
+Visit("d")
+Forward()
+</code></pre>
+<p>
+(The last <code>Forward()</code> call should fail &mdash; work out why
+before you run it.)
+</p>
+
+<p>
+<a href="starter-structure.html">&larr; Previous: Starter file structure</a> |
+<a href="building-the-handlers.html">Next: Step 2, build the HTTP handlers &rarr;</a>
+</p>
+
+</body>
+</html>

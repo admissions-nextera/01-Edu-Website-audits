@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Practical questions - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="engineering-questions.html">&larr; Engineering questions &amp; Socratic vision</a></p>
+
+<h1>Practical questions</h1>
+
+<p>
+Small, concrete tasks against your finished server. Each should take
+minutes, not hours &mdash; they're meant to poke at specific corners of
+your implementation.
+</p>
+
+<ol>
+<li>
+Send <code>POST /visit</code> with an empty body (no <code>url</code>
+field at all). Does your server return <code>400</code>, or does it crash,
+or does it silently visit an empty-string page? If it's not
+<code>400</code>, fix it.
+</li>
+
+<li>
+Send <code>POST /visit</code> with a body that isn't valid JSON at all
+(e.g. just the text <code>hello</code>). Confirm you get a clean
+<code>400</code>, not a stack trace or a hung connection.
+</li>
+
+<li>
+Call <code>GET /current</code> using a browser tab or <code>curl -X POST</code>
+against it (wrong method). What does the standard library's
+<code>ServeMux</code> do by default when a path exists but the method
+doesn't match what you registered? Confirm it matches what you'd expect.
+</li>
+
+<li>
+Write a short script (bash with <code>curl</code>, or a small Go program
+using <code>net/http</code> as a client) that fires 20 <code>visit</code>
+requests back to back in a loop, then confirm via <code>/history</code>
+that your back stack has exactly 20 entries in the right order.
+</li>
+
+<li>
+Manually fire two <code>POST /visit</code> requests at the exact same
+time from two separate terminals (or with <code>&amp;</code> in bash to
+background one). Run this 20-30 times in a loop. Does
+<code>/history</code> ever come back with a stack length that doesn't
+match how many visits you actually sent? If you never see corruption, does
+that prove your locking is correct, or just that you didn't get unlucky?
+</li>
+
+<li>
+Add a <code>DELETE /history</code> endpoint (not in the original spec)
+that resets the server back to its starting state &mdash; empty stacks,
+starting URL. Decide for yourself what status code a successful reset
+should return.
+</li>
+
+<li>
+Time how long 1,000 sequential <code>POST /visit</code> calls take against
+your running server (a simple loop with <code>time.Now()</code> before and
+after is enough). Is the bottleneck your stack operations, or something
+else entirely? How would you find out for sure rather than guessing?
+</li>
+</ol>
+
+<p>
+<a href="engineering-questions.html">&larr; Previous: Engineering questions &amp; Socratic vision</a> |
+<a href="extra-features.html">Next: Level up: extra features &rarr;</a>
+</p>
+
+</body>
+</html>

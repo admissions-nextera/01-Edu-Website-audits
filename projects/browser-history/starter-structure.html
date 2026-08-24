@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Starter structure - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="spec.html">&larr; Full project specification</a></p>
+
+<h1>Starter file structure</h1>
+
+<p>
+A reasonable layout for a project this size, kept flat and simple on
+purpose:
+</p>
+
+<pre><code>browser-history-sim/
+├── go.mod
+├── main.go
+├── history.go
+└── handlers.go
+</code></pre>
+
+<p><code>go.mod</code>:</p>
+<pre><code>module browser-history-sim
+
+go 1.22
+</code></pre>
+
+<p>
+<code>history.go</code> &mdash; this is where your stack-based logic lives.
+The scaffold below gives you the type, the field names, and the method
+signatures. The method bodies with <code>// TODO</code> are yours to write
+&mdash; that's the actual assignment.
+</p>
+
+<pre><code>package main
+
+import "sync"
+
+// History holds the back/forward stacks and the current URL.
+// TODO: pick your own representation for the stacks. A []string
+// with the "top" at the end works fine, or reuse the generic
+// Stack[T] type from the stack refresher chapter.
+type History struct {
+    mu      sync.Mutex
+    back    []string
+    current string
+    forward []string
+}
+
+// NewHistory creates a History starting at the given URL.
+func NewHistory(start string) *History {
+    return &amp;History{
+        current: start,
+    }
+}
+
+// Visit navigates to a new URL.
+// TODO: push current onto back, set current to url, clear forward.
+func (h *History) Visit(url string) {
+}
+
+// Back moves one step back in history.
+// Returns the new current URL and true on success,
+// or "", false if there's nothing to go back to.
+// TODO
+func (h *History) Back() (string, bool) {
+    return "", false
+}
+
+// Forward moves one step forward in history.
+// Same return shape as Back.
+// TODO
+func (h *History) Forward() (string, bool) {
+    return "", false
+}
+
+// Current returns the current URL.
+// TODO
+func (h *History) Current() string {
+    return ""
+}
+
+// Snapshot returns the full state, for the optional /history endpoint.
+// TODO
+func (h *History) Snapshot() (back []string, current string, forward []string) {
+    return nil, "", nil
+}
+</code></pre>
+
+<p>
+<code>handlers.go</code> &mdash; the HTTP layer. The routing and
+request/response plumbing is given; the bodies that call into
+<code>History</code> and decide what to write back are yours.
+</p>
+
+<pre><code>package main
+
+import (
+    "encoding/json"
+    "net/http"
+)
+
+type visitRequest struct {
+    URL string `json:"url"`
+}
+
+type currentResponse struct {
+    Current string `json:"current"`
+}
+
+type errorResponse struct {
+    Error string `json:"error"`
+}
+
+func writeJSON(w http.ResponseWriter, status int, data any) {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(status)
+    json.NewEncoder(w).Encode(data)
+}
+
+func visitHandler(h *History) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        var req visitRequest
+        if err := json.NewDecoder(r.Body).Decode(&amp;req); err != nil || req.URL == "" {
+            writeJSON(w, http.StatusBadRequest, errorResponse{Error: "url is required"})
+            return
+        }
+        // TODO: call h.Visit(req.URL) and write the response
+    }
+}
+
+func backHandler(h *History) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        // TODO: call h.Back(), handle the ok == false case
+    }
+}
+
+func forwardHandler(h *History) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        // TODO: symmetric to backHandler
+    }
+}
+
+func currentHandler(h *History) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        // TODO: call h.Current() and write the response
+    }
+}
+
+func historyHandler(h *History) http.HandlerFunc {
+    return func(w http.ResponseWriter, r *http.Request) {
+        // TODO (optional endpoint): call h.Snapshot() and write the response
+    }
+}
+</code></pre>
+
+<p>
+<code>main.go</code> &mdash; this one is given in full. Wiring up routes is
+boilerplate, not the point of the exercise.
+</p>
+
+<pre><code>package main
+
+import (
+    "log"
+    "net/http"
+)
+
+func main() {
+    h := NewHistory("home")
+
+    mux := http.NewServeMux()
+    mux.HandleFunc("POST /visit", visitHandler(h))
+    mux.HandleFunc("POST /back", backHandler(h))
+    mux.HandleFunc("POST /forward", forwardHandler(h))
+    mux.HandleFunc("GET /current", currentHandler(h))
+    mux.HandleFunc("GET /history", historyHandler(h))
+
+    log.Println("listening on :8080")
+    log.Fatal(http.ListenAndServe(":8080", mux))
+}
+</code></pre>
+
+<p>
+Notice the handler functions are written as functions that <em>return</em>
+an <code>http.HandlerFunc</code>, closing over <code>h</code>. This is how
+you hand a handler access to shared state without using a package-level
+global variable &mdash; worth noticing now, since it's a pattern you'll see
+constantly in real Go HTTP code.
+</p>
+
+<p>
+<a href="spec.html">&larr; Previous: Full project specification</a> |
+<a href="building-the-stack.html">Next: Step 1, build the History type &rarr;</a>
+</p>
+
+</body>
+</html>

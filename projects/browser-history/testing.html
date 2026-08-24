@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Testing your server - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="wiring-it-up.html">&larr; Step 3: Wire it up and run it</a></p>
+
+<h1>Testing your server</h1>
+
+<p>With the server running in one terminal, run these from another.</p>
+
+<h2>Check the starting state</h2>
+<pre><code>curl http://localhost:8080/current
+curl http://localhost:8080/history
+</code></pre>
+<p>Expect the starting URL you picked (e.g. <code>"home"</code>), with both stacks empty.</p>
+
+<h2>Visit a few pages</h2>
+<pre><code>curl -X POST http://localhost:8080/visit -d '{"url":"a"}'
+curl -X POST http://localhost:8080/visit -d '{"url":"b"}'
+curl -X POST http://localhost:8080/visit -d '{"url":"c"}'
+curl http://localhost:8080/history
+</code></pre>
+<p>
+Expect <code>current</code> to be <code>"c"</code>, <code>back</code> to
+contain <code>["home", "a", "b"]</code> (or in whatever order you chose to
+represent "top of stack"), and <code>forward</code> empty.
+</p>
+
+<h2>Go back twice</h2>
+<pre><code>curl -X POST http://localhost:8080/back
+curl -X POST http://localhost:8080/back
+curl http://localhost:8080/current
+</code></pre>
+<p>Expect current to now be <code>"a"</code>.</p>
+
+<h2>Go forward once</h2>
+<pre><code>curl -X POST http://localhost:8080/forward
+curl http://localhost:8080/current
+</code></pre>
+<p>Expect current to be <code>"b"</code> again.</p>
+
+<h2>Branch off &mdash; the important case</h2>
+<pre><code>curl -X POST http://localhost:8080/visit -d '{"url":"d"}'
+curl -X POST http://localhost:8080/forward
+</code></pre>
+<p>
+The second call here should fail. Visiting <code>"d"</code> from
+<code>"b"</code> should have wiped out the forward stack (which had
+<code>"c"</code> in it), since you branched off into new history. If this
+call succeeds instead of erroring, go back to <code>Visit</code> in
+<code>history.go</code> &mdash; the forward-clearing step is missing or in
+the wrong place.</p>
+
+<h2>Exhaust the back stack</h2>
+<pre><code>curl -X POST http://localhost:8080/back
+curl -X POST http://localhost:8080/back
+curl -X POST http://localhost:8080/back
+curl -X POST http://localhost:8080/back
+</code></pre>
+<p>
+At some point you'll run out of back-history. Confirm you get your chosen
+error status back, not a panic and not a <code>200</code> with a nonsense
+value.
+</p>
+
+<p>
+<a href="wiring-it-up.html">&larr; Previous: Step 3, wire it up and run it</a> |
+<a href="engineering-questions.html">Next: Engineering questions &amp; Socratic vision &rarr;</a>
+</p>
+
+</body>
+</html>

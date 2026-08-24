@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Engineering questions &amp; Socratic vision - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="testing.html">&larr; Testing your server</a></p>
+
+<h1>Engineering questions &amp; Socratic vision</h1>
+
+<p>
+These questions don't have a single correct answer sitting in a chapter
+above. They're meant to be argued with yourself (or a mentor) out loud.
+The goal isn't to recall what you built &mdash; it's to notice the design
+decisions you made without realizing you were making them, and to defend
+them.
+</p>
+
+<ol>
+<li>
+When <code>Back()</code> fails because the stack is empty, you chose a
+status code for that. Why that one, specifically? What would a client of
+your API have to do differently if you'd chosen <code>400</code> instead
+of <code>409</code>, or vice versa? Is "no history to go back to" actually
+an error at all, or is it more like an empty search result &mdash; a valid
+outcome that just happens to not be what the user wanted?
+</li>
+
+<li>
+Your <code>History</code> struct holds one back stack, one forward stack,
+one current URL &mdash; for the entire server. What happens to two
+different users hitting your API at the same time? Is that a bug, given
+what the spec asked for? If it is a bug, what's the smallest change that
+would fix it, and what's the largest?
+</li>
+
+<li>
+You protected <code>History</code>'s state with a single mutex covering
+every field. Could <code>back</code> and <code>forward</code> have been
+protected by two separate mutexes instead? Would that have been better,
+worse, or just different? What would have to be true about how the
+operations use the two stacks for splitting the lock to even be safe?
+</li>
+
+<li>
+Visiting a new page clears the entire forward stack, unconditionally. A
+browser really does this. Can you think of a plausible product reason a
+different app might <em>not</em> want this behavior &mdash; where "branch
+and keep the old forward history around somewhere" would actually be
+useful? What would that require changing about your data structure?
+</li>
+
+<li>
+Right now your history lives entirely in a Go process's memory and
+vanishes on restart. Suppose you were told: "this needs to survive a
+server restart." Walk through, out loud, everywhere in your code that
+assumption is currently baked in, before you touch a single line to fix
+it.
+</li>
+
+<li>
+<code>Back</code> and <code>Forward</code> are near-mirror images of each
+other. When two pieces of code are structurally that similar, is that a
+sign you should factor out a shared helper, or is it a coincidence of this
+particular problem that isn't worth abstracting? What would you actually
+lose or gain by merging them into one <code>move(from, to *[]string) (string, bool)</code>
+style function?
+</li>
+
+<li>
+You used a slice as the backing store for your stacks. What is the actual
+time complexity of your <code>Push</code> and <code>Pop</code>, including
+whatever <code>append</code> does under the hood? Under what usage pattern
+would that complexity ever matter for this particular project &mdash; and
+under what usage pattern would it clearly not?
+</li>
+
+<li>
+If a grader (or a future teammate) opened only <code>handlers.go</code>
+and never looked at <code>history.go</code>, could they tell what your
+API does, just from reading the handler bodies? If the answer is no,
+what does that tell you about where the "real" documentation of this
+service's behavior currently lives?
+</li>
+</ol>
+
+<p>
+<a href="testing.html">&larr; Previous: Testing your server</a> |
+<a href="practical-questions.html">Next: Practical questions &rarr;</a>
+</p>
+
+</body>
+</html>

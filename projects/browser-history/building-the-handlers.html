@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Step 2: Build the HTTP handlers - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="building-the-stack.html">&larr; Step 1: Build the History type</a></p>
+
+<h1>Step 2: Build the HTTP handlers</h1>
+
+<p>
+With <code>History</code> working and tested on its own, the handlers
+become thin: decode input if there is any, call the method, encode the
+output. If a handler body is getting complicated, that's usually a sign
+some logic leaked into the HTTP layer that belongs in
+<code>history.go</code> instead.
+</p>
+
+<h2>visitHandler</h2>
+<p>
+The decode-and-validate part is already written for you in the scaffold.
+After that:
+</p>
+<ul>
+<li>Call <code>h.Visit(req.URL)</code>.</li>
+<li>Write back <code>200 OK</code> with the new current URL in a <code>currentResponse</code>.</li>
+</ul>
+
+<h2>backHandler and forwardHandler</h2>
+<p>These both follow the same shape:</p>
+<ul>
+<li>Call the corresponding method, which returns <code>(string, bool)</code>.</li>
+<li>If the bool is <code>false</code>, write an error response. Decide on the status code yourself &mdash; the spec chapter deliberately left this open. Be ready to justify your choice.</li>
+<li>If <code>true</code>, write <code>200 OK</code> with the new current URL, same shape as <code>visitHandler</code>.</li>
+</ul>
+
+<h2>currentHandler</h2>
+<p>
+The simplest one: call <code>h.Current()</code>, always write
+<code>200 OK</code>. There's no failure mode here &mdash; there's always a
+current URL, even on a freshly started server.
+</p>
+
+<h2>historyHandler (optional)</h2>
+<p>
+Call <code>h.Snapshot()</code> and shape the three return values into
+whatever JSON structure you chose in the spec chapter. This handler is
+purely for your own visibility while testing &mdash; it's not part of the
+"real" simulated behavior of a browser.
+</p>
+
+<h2>A design question worth sitting with before you write the error responses</h2>
+<p>
+Should <code>errorResponse</code> ever include more than a human-readable
+string? Real APIs often add a machine-readable error code
+(<code>"NO_BACK_HISTORY"</code>) alongside the message, so a client can
+branch on it without string-matching. You don't have to add this, but
+decide deliberately rather than by default &mdash; and if you do add it,
+keep it consistent across every failure case.
+</p>
+
+<p>
+<a href="building-the-stack.html">&larr; Previous: Step 1, build the History type</a> |
+<a href="wiring-it-up.html">Next: Step 3, wire it up and run it &rarr;</a>
+</p>
+
+</body>
+</html>

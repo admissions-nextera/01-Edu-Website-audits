@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Step 3: Wire it up and run it - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="building-the-handlers.html">&larr; Step 2: Build the HTTP handlers</a></p>
+
+<h1>Step 3: Wire it up and run it</h1>
+
+<p>
+<code>main.go</code> was given to you in full in the starter chapter
+&mdash; you shouldn't need to change it unless you renamed something.
+Double check the three files agree with each other:
+</p>
+
+<ul>
+<li>The method signatures on <code>History</code> in <code>history.go</code> match what <code>handlers.go</code> is calling.</li>
+<li>The handler function names in <code>handlers.go</code> match what <code>main.go</code> registers on the mux.</li>
+<li>Every file starts with <code>package main</code>.</li>
+</ul>
+
+<h2>Running it</h2>
+
+<pre><code>go run .
+</code></pre>
+
+<p>
+You should see <code>listening on :8080</code> printed, and the process
+should keep running (it's a server &mdash; it doesn't exit on its own).
+</p>
+
+<h2>If it won't compile</h2>
+
+<p>
+Go's compiler errors for this kind of project are almost always one of:
+</p>
+<ul>
+<li>A method receiver type mismatch (<code>*History</code> vs <code>History</code> &mdash; pick one and be consistent, pointer receivers are the right call here since you're mutating shared state).</li>
+<li>An unused import (Go treats this as a compile error, not a warning).</li>
+<li>A <code>TODO</code> stub that still returns the zero-value placeholders from the scaffold, causing a downstream type mismatch once you start actually using the return values.</li>
+</ul>
+
+<p>
+<a href="building-the-handlers.html">&larr; Previous: Step 2, build the HTTP handlers</a> |
+<a href="testing.html">Next: Testing your server &rarr;</a>
+</p>
+
+</body>
+</html>

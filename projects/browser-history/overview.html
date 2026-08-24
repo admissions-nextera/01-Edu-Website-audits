@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Overview - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a></p>
+
+<h1>Overview: what we're building and why</h1>
+
+<p>
+Every browser you've ever used has a Back button and a Forward button.
+Under the hood, that behavior is almost always implemented with two stacks:
+</p>
+
+<ul>
+<li>A <strong>back stack</strong>: pages you've visited before the current one, most recent on top.</li>
+<li>A <strong>forward stack</strong>: pages you've gone "back" from, that you could go "forward" to again.</li>
+<li>A <strong>current page</strong>: wherever you are right now.</li>
+</ul>
+
+<p>
+The rules that make this feel right are exactly stack rules &mdash; last
+in, first out. The most recently visited page is the first one you land on
+when you hit Back. And the moment you visit a genuinely new page while
+sitting somewhere in your history, your "forward" options stop making
+sense and get thrown away &mdash; you can't go forward into a future that
+no longer exists once you've branched off into a new one.
+</p>
+
+<p>
+This project asks you to implement exactly that logic, then put an HTTP
+face on it: a small server with endpoints for visiting a URL, going back,
+going forward, and checking where you currently are. That's the second half
+of last session &mdash; taking a plain Go type and making it reachable over
+HTTP, the same way a real backend service exposes its internal state and
+operations to the outside world.
+</p>
+
+<p>
+Nothing here needs a database, a frontend, or a browser. You'll interact
+with your server using <code>curl</code> or a tool like Postman. The whole
+point is the two ideas underneath: correct stack behavior, and a clean HTTP
+layer sitting on top of it.
+</p>
+
+<p><a href="stack-refresher.html">Next: Stack refresher &rarr;</a></p>
+
+</body>
+</html>

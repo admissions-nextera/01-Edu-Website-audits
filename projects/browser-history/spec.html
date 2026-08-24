@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Specification - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="http-refresher.html">&larr; HTTP server refresher</a></p>
+
+<h1>Full project specification</h1>
+
+<h2>State</h2>
+
+<p>The server maintains, in memory, for a single simulated session:</p>
+<ul>
+<li>A <strong>back stack</strong> of previously visited URLs.</li>
+<li>A <strong>forward stack</strong> of URLs available to go forward to.</li>
+<li>The <strong>current URL</strong>.</li>
+</ul>
+
+<p>
+On startup, pick a sensible starting page (e.g. <code>"about:blank"</code>
+or <code>"home"</code>) as the current URL, with both stacks empty.
+</p>
+
+<h2>Endpoints</h2>
+
+<h3>POST /visit</h3>
+<p>Request body: <code>{"url": "https://example.com"}</code></p>
+<p>Behavior:</p>
+<ul>
+<li>Push the <em>current</em> URL onto the back stack.</li>
+<li>Set the current URL to the one in the request.</li>
+<li>Clear the forward stack entirely.</li>
+</ul>
+<p>
+Response: <code>200 OK</code> with the new current URL. If <code>url</code>
+is missing or empty, <code>400 Bad Request</code>.
+</p>
+
+<h3>POST /back</h3>
+<p>No body required.</p>
+<p>Behavior:</p>
+<ul>
+<li>If the back stack is empty, there's nowhere to go &mdash; return an
+error status (pick one, and be ready to explain why you picked it &mdash;
+see the engineering questions chapter).</li>
+<li>Otherwise: push the current URL onto the forward stack, pop the back
+stack, and make the popped URL the new current URL.</li>
+</ul>
+<p>Response: <code>200 OK</code> with the new current URL, or the error status for the empty case.</p>
+
+<h3>POST /forward</h3>
+<p>Symmetric to <code>/back</code>: if the forward stack is empty, error.
+Otherwise push current onto the back stack, pop the forward stack, and make
+the popped URL current.</p>
+
+<h3>GET /current</h3>
+<p>Returns the current URL. Always succeeds (there's always a current URL, even at the very start).</p>
+
+<h3>GET /history (optional but recommended)</h3>
+<p>
+Returns a snapshot of the whole state &mdash; something like:
+</p>
+<pre><code>{
+  "back": ["page1", "page2"],
+  "current": "page3",
+  "forward": ["page4"]
+}
+</code></pre>
+<p>
+This one isn't strictly required by the "browser" behavior, but you'll want
+it constantly while testing &mdash; it's the easiest way to see whether
+your stacks are actually doing what you think they're doing.
+</p>
+
+<h2>Response shape</h2>
+
+<p>
+Pick one consistent JSON envelope and use it everywhere, for example:
+</p>
+<pre><code>{ "current": "https://example.com" }
+</code></pre>
+<p>
+for success, and something like
+</p>
+<pre><code>{ "error": "no back history to go to" }
+</code></pre>
+<p>
+for failures. Consistency matters more than the exact shape &mdash; decide
+early and stick with it across every handler.
+</p>
+
+<h2>Concurrency requirement</h2>
+
+<p>
+An <code>http.Server</code> handles each incoming request on its own
+goroutine. That means two requests (say, two rapid clicks sent as two
+concurrent <code>POST /visit</code> and <code>POST /back</code> calls)
+could run your handler logic at the same time, both touching the same
+stacks. Your <code>History</code> type needs to protect its state so this
+doesn't corrupt it &mdash; this is flagged here deliberately; how you solve
+it is part of the exercise in the next chapters.
+</p>
+
+<h2>What's explicitly out of scope</h2>
+<ul>
+<li>No persistence &mdash; history resets when the server restarts.</li>
+<li>No multiple sessions/users &mdash; one shared history for the whole server.</li>
+<li>No frontend.</li>
+</ul>
+<p>
+(Several of these show up as optional stretch goals later in the guide.)
+</p>
+
+<p>
+<a href="http-refresher.html">&larr; Previous: HTTP server refresher</a> |
+<a href="starter-structure.html">Next: Starter file structure &rarr;</a>
+</p>
+
+</body>
+</html>

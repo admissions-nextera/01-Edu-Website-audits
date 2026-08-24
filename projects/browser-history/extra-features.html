@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Level up: extra features - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="practical-questions.html">&larr; Practical questions</a></p>
+
+<h1>Level up: extra features</h1>
+
+<p>
+Optional, roughly ordered from smallest to largest change. Pick whatever
+sounds interesting &mdash; none of these are required to consider the base
+project done.
+</p>
+
+<h2>History size cap</h2>
+<p>
+Real browsers don't keep infinite history. Add a max size to the back
+stack (say, 50 entries); once full, the oldest entry gets dropped when a
+new one is pushed. This is a small change to <code>Visit</code>, but it
+touches the question of whether a slice is still the right structure, or
+whether a ring buffer would fit better.
+</p>
+
+<h2>Multiple tabs / sessions</h2>
+<p>
+Instead of one global <code>History</code>, support multiple independent
+histories keyed by a tab or session id. This means: a way to create a new
+tab (<code>POST /tabs</code> returning an id), and every existing endpoint
+needs that id (as a path segment, e.g. <code>/tabs/{id}/visit</code>, or a
+header). This is the change that turns "one struct" into "a map of
+structs protected by its own lock" &mdash; worth thinking hard about
+where the locking needs to happen once there are two levels of shared
+state instead of one.
+</p>
+
+<h2>Persistence across restarts</h2>
+<p>
+Write the state to a file (JSON is fine) on every mutation, or on a timer,
+and load it back on startup. This connects directly back to the earlier
+File I/O material from the plan. A harder version: use SQLite instead of a
+flat file, which connects to whatever comes later in the curriculum around
+databases.
+</p>
+
+<h2>URL validation</h2>
+<p>
+Right now any non-empty string is accepted as a "URL." Add real validation
+&mdash; using <code>net/url.Parse</code> and rejecting malformed input with
+a proper <code>400</code> and a useful error message.
+</p>
+
+<h2>Middleware: request logging</h2>
+<p>
+Wrap your mux (or each handler) with a small middleware function that logs
+the method, path, and how long the request took. This is a natural
+extension of the handler-closure pattern already used in the starter
+scaffold &mdash; a middleware is just a function that takes a handler and
+returns a new one that does something extra around it.
+</p>
+
+<h2>Rate limiting</h2>
+<p>
+Cap how many requests a client can make per second (a simple token-bucket
+or fixed-window counter is enough for a first pass), and return
+<code>429 Too Many Requests</code> once they exceed it. A good excuse to
+practice building something time-based and concurrent-safe from scratch.
+</p>
+
+<h2>A minimal frontend</h2>
+<p>
+Explicitly out of scope for the base project, but a natural next step once
+the API is solid: a single static HTML page with Back/Forward/Visit
+buttons that calls your API with <code>fetch()</code> and displays the
+current URL and both stacks. This is a good bridge into whatever frontend
+material comes later in the plan.
+</p>
+
+<p>
+<a href="practical-questions.html">&larr; Previous: Practical questions</a> |
+<a href="references.html">Next: References &rarr;</a>
+</p>
+
+</body>
+</html>

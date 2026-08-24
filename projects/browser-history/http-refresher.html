@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>HTTP server refresher - Browser History Simulator</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="stack-refresher.html">&larr; Stack refresher</a></p>
+
+<h1>HTTP server refresher</h1>
+
+<p>
+The pieces from last session's HTTP material that you'll actually use here:
+</p>
+
+<h2>A handler is just a function</h2>
+
+<pre><code>func currentHandler(w http.ResponseWriter, r *http.Request) {
+    w.Write([]byte("hello"))
+}
+</code></pre>
+
+<p>
+Every handler gets an <code>http.ResponseWriter</code> to write the
+response to, and an <code>*http.Request</code> describing what came in
+(method, path, body, headers).
+</p>
+
+<h2>Routing with net/http's ServeMux</h2>
+
+<pre><code>mux := http.NewServeMux()
+mux.HandleFunc("POST /visit", visitHandler)
+mux.HandleFunc("POST /back", backHandler)
+mux.HandleFunc("POST /forward", forwardHandler)
+mux.HandleFunc("GET /current", currentHandler)
+
+http.ListenAndServe(":8080", mux)
+</code></pre>
+
+<p>
+The <code>"METHOD /path"</code> pattern syntax (method-aware routing) is
+available in the standard library's <code>ServeMux</code> since Go 1.22.
+If you're on an older Go version, you'd instead register on the bare path
+and check <code>r.Method</code> yourself inside the handler.
+</p>
+
+<h2>Reading a JSON request body</h2>
+
+<pre><code>type visitRequest struct {
+    URL string `json:"url"`
+}
+
+func visitHandler(w http.ResponseWriter, r *http.Request) {
+    var req visitRequest
+    if err := json.NewDecoder(r.Body).Decode(&amp;req); err != nil {
+        http.Error(w, "invalid request body", http.StatusBadRequest)
+        return
+    }
+    // ... use req.URL
+}
+</code></pre>
+
+<h2>Writing a JSON response</h2>
+
+<pre><code>func writeJSON(w http.ResponseWriter, status int, data any) {
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(status)
+    json.NewEncoder(w).Encode(data)
+}
+</code></pre>
+
+<h2>Status codes you'll actually need here</h2>
+
+<ul>
+<li><code>200 OK</code> &mdash; the operation succeeded.</li>
+<li><code>400 Bad Request</code> &mdash; the request body was malformed or missing required fields.</li>
+<li><code>409 Conflict</code> or <code>422 Unprocessable Entity</code> &mdash; a reasonable choice for "you asked to go Back but there's nothing behind you" (the spec chapter leaves the exact choice, and the reasoning behind it, to you).</li>
+</ul>
+
+<p>
+That's the full toolkit. Everything else in this project is about what
+happens <em>inside</em> those handlers &mdash; which is where the stack
+logic lives.
+</p>
+
+<p>
+<a href="stack-refresher.html">&larr; Previous: Stack refresher</a> |
+<a href="spec.html">Next: Full project specification &rarr;</a>
+</p>
+
+</body>
+</html>
