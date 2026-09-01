@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Lists - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="text-and-headings.html">&larr; Text and headings</a></p>
+
+<h1>Lists</h1>
+
+<h2>Unordered lists</h2>
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Go&lt;/li&gt;
+    &lt;li&gt;JavaScript&lt;/li&gt;
+    &lt;li&gt;SQL&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>
+Use <code>&lt;ul&gt;</code> when the order of items doesn't carry meaning
+&mdash; a bullet list of skills, features, ingredients.
+</p>
+
+<h2>Ordered lists</h2>
+
+<pre><code>&lt;ol&gt;
+    &lt;li&gt;Clone the repo&lt;/li&gt;
+    &lt;li&gt;Install dependencies&lt;/li&gt;
+    &lt;li&gt;Run the server&lt;/li&gt;
+&lt;/ol&gt;
+</code></pre>
+
+<p>
+Use <code>&lt;ol&gt;</code> when sequence matters &mdash; steps, rankings,
+anything where item 1 has to come before item 2 for it to make sense.
+</p>
+
+<h2>Nested lists</h2>
+
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;Backend
+        &lt;ul&gt;
+            &lt;li&gt;Go&lt;/li&gt;
+            &lt;li&gt;SQL&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Frontend
+        &lt;ul&gt;
+            &lt;li&gt;HTML&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>
+The nested <code>&lt;ul&gt;</code> goes <em>inside</em> the
+<code>&lt;li&gt;</code> it belongs under, not after it as a sibling
+&mdash; that's what makes it structurally "a sublist of this item" rather
+than "an unrelated list that happens to come next."
+</p>
+
+<h2>Description lists</h2>
+
+<pre><code>&lt;dl&gt;
+    &lt;dt&gt;Go&lt;/dt&gt;
+    &lt;dd&gt;Used for backend services and CLI tools&lt;/dd&gt;
+    &lt;dt&gt;SQL&lt;/dt&gt;
+    &lt;dd&gt;Used for querying and modeling relational data&lt;/dd&gt;
+&lt;/dl&gt;
+</code></pre>
+
+<p>
+<code>&lt;dl&gt;</code> (description list) pairs a term
+(<code>&lt;dt&gt;</code>) with its description
+(<code>&lt;dd&gt;</code>) &mdash; useful for a glossary, or (as here) a
+skill paired with how you actually use it, which is a step up from a bare
+bullet list of skill names.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Add a skills section to your profile: an <code>&lt;h2&gt;</code> ("Skills")
+followed by a <code>&lt;ul&gt;</code> of at least five skills, with at
+least one skill grouped into a nested sublist by category (e.g. "Languages"
+containing a nested list of specific languages). If you'd rather show
+<em>how</em> you use each skill instead of just naming it, use a
+<code>&lt;dl&gt;</code> instead &mdash; your choice, but be able to explain
+why you picked the one you picked.
+</p>
+
+<p>
+<a href="text-and-headings.html">&larr; Previous: Text and headings</a> |
+<a href="links-and-images.html">Next: Links and images &rarr;</a>
+</p>
+
+</body>
+</html>

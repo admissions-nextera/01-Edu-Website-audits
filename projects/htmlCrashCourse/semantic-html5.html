@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Semantic HTML5 layout - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="forms.html">&larr; Forms</a></p>
+
+<h1>Semantic HTML5 layout</h1>
+
+<p>
+Everything you've built so far probably lives directly inside
+<code>&lt;body&gt;</code> with no outer structure. HTML5 added a set of
+elements specifically to describe the large-scale regions of a page, so
+that structure is explicit rather than implied by a pile of generic
+<code>&lt;div&gt;</code>s.
+</p>
+
+<pre><code>&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Jane Doe&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;a href="#about"&gt;About&lt;/a&gt;
+            &lt;a href="#skills"&gt;Skills&lt;/a&gt;
+            &lt;a href="#contact"&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section id="about"&gt;
+            &lt;h2&gt;About&lt;/h2&gt;
+            &lt;p&gt;...&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section id="skills"&gt;
+            &lt;h2&gt;Skills&lt;/h2&gt;
+            &lt;ul&gt;...&lt;/ul&gt;
+        &lt;/section&gt;
+
+        &lt;section id="contact"&gt;
+            &lt;h2&gt;Contact&lt;/h2&gt;
+            &lt;form&gt;...&lt;/form&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Jane Doe&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+</code></pre>
+
+<h2>What each region means</h2>
+
+<ul>
+<li><code>&lt;header&gt;</code> &mdash; introductory content for the page (or for a section it's nested in). Not to be confused with <code>&lt;h1&gt;</code>&ndash;<code>&lt;h6&gt;</code>; a header is a region, a heading is a specific text element that usually lives inside one.</li>
+<li><code>&lt;nav&gt;</code> &mdash; a block of navigation links. Screen readers can jump straight to "the navigation landmark" without you doing anything extra.</li>
+<li><code>&lt;main&gt;</code> &mdash; the primary content of the page. There should be exactly one per page, and it should not include repeated boilerplate like the header or footer.</li>
+<li><code>&lt;section&gt;</code> &mdash; a thematic grouping of content, generally introduced by its own heading. Your "About," "Skills," and "Contact" blocks each earn their own <code>&lt;section&gt;</code>.</li>
+<li><code>&lt;article&gt;</code> &mdash; content that would make sense distributed or syndicated on its own, independent of the rest of the page (a blog post, a single project writeup). If you added a "Projects" section listing several independent projects, each project would reasonably be its own <code>&lt;article&gt;</code> inside that section.</li>
+<li><code>&lt;aside&gt;</code> &mdash; content tangentially related to the main content near it (a pull quote, a related-links box) &mdash; not the main flow, but not unrelated either.</li>
+<li><code>&lt;footer&gt;</code> &mdash; closing content for the page (or section): copyright, contact info repeated in short form, and similar.</li>
+</ul>
+
+<h2>section vs. div</h2>
+
+<p>
+The test that actually matters: would this chunk of content make sense
+described by its own heading, as a distinct topic? If yes, it's a
+<code>&lt;section&gt;</code>. If you just need a wrapper for styling or
+grouping with no topical meaning of its own, <code>&lt;div&gt;</code> is
+still the correct, honest choice &mdash; wrapping everything in
+<code>&lt;section&gt;</code> "to be semantic" is itself a misuse of the tag.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Restructure your whole profile page into this layout: a
+<code>&lt;header&gt;</code> with your name and a <code>&lt;nav&gt;</code>
+linking (via <code>#id</code> anchors) to each section, a
+<code>&lt;main&gt;</code> containing an About <code>&lt;section&gt;</code>,
+a Skills <code>&lt;section&gt;</code>, an Experience
+<code>&lt;section&gt;</code> (your table), and a Contact
+<code>&lt;section&gt;</code> (your form), and a <code>&lt;footer&gt;</code>.
+Give each <code>&lt;section&gt;</code> an <code>id</code> that matches what
+your nav links point to, and click each nav link to confirm it actually
+jumps to the right place.
+</p>
+
+<p>
+<a href="forms.html">&larr; Previous: Forms</a> |
+<a href="accessibility-and-metadata.html">Next: Accessibility and metadata &rarr;</a>
+</p>
+
+</body>
+</html>

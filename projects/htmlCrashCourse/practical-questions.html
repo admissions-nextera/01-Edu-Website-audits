@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Practical questions - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="engineering-questions.html">&larr; Engineering questions &amp; Socratic vision</a></p>
+
+<h1>Practical questions</h1>
+
+<p>
+Small, concrete tasks against your finished page. Each should take
+minutes, not hours.
+</p>
+
+<ol>
+<li>
+Delete the closing <code>&lt;/li&gt;</code> from one item in your skills
+list (leave the opening tag) and reload the page. Does it visibly break?
+What does that tell you about how forgiving browsers are with malformed
+HTML &mdash; and why that forgiveness is a double-edged thing to rely on?
+</li>
+
+<li>
+Run your page through the W3C Markup Validator on purpose with that broken
+tag still in place. Compare what the validator flags versus what the
+browser actually did about it silently.
+</li>
+
+<li>
+Change one of your <code>&lt;label for="..."&gt;</code> values so it no
+longer matches its input's <code>id</code>. Click directly on that label
+text. Does focus still jump to the input? What did you just prove about
+the label/input relationship?
+</li>
+
+<li>
+Temporarily remove the <code>alt</code> attribute from your profile image
+entirely (not just make it empty &mdash; delete the attribute). Reload and
+try to figure out, using only your browser's built-in tools, what a screen
+reader would announce for that image now versus before.
+</li>
+
+<li>
+Add a second, completely separate page &mdash; <code>projects.html</code>
+&mdash; and link to it from your nav using a real relative link (not a
+<code>#</code> anchor). Confirm clicking it in the browser actually
+navigates there and the back button returns you to your profile.
+</li>
+
+<li>
+Count how many elements in your finished page are void elements (no
+closing tag). List them. Explain, for just one of them, why HTML doesn't
+require (or allow) a closing tag for it.
+</li>
+
+<li>
+Give two different <code>&lt;section&gt;</code> elements on your page the
+exact same <code>id</code> value on purpose. Click a nav link that targets
+that id. Which section does the browser actually jump to? Then run the
+validator again and read what it says about it.
+</li>
+</ol>
+
+<p>
+<a href="engineering-questions.html">&larr; Previous: Engineering questions &amp; Socratic vision</a> |
+<a href="extra-features.html">Next: Level up: extra features &rarr;</a>
+</p>
+
+</body>
+</html>

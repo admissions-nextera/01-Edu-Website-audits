@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Engineering questions &amp; Socratic vision - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="testing.html">&larr; Testing and validating your page</a></p>
+
+<h1>Engineering questions &amp; Socratic vision</h1>
+
+<p>
+No single correct answer sits above these. They're meant to be argued
+with yourself, or a mentor, out loud &mdash; the goal is noticing the
+decisions you made without realizing you were making them.
+</p>
+
+<ol>
+<li>
+You wrapped your Skills section in <code>&lt;section&gt;</code> rather than
+<code>&lt;div&gt;</code>. What actual, concrete difference does that make
+&mdash; to a browser, to a screen reader, to a search engine &mdash; given
+that with no CSS applied, both would render visually identical? If the
+difference is invisible to you right now, does that mean it doesn't
+matter?
+</li>
+
+<li>
+You chose between <code>&lt;ul&gt;</code> and <code>&lt;dl&gt;</code> for
+your skills. Defend your choice specifically: what would be lost, or
+gained, if you'd made the other choice instead? Is there a skills-section
+design where neither is really correct?
+</li>
+
+<li>
+Your contact form has an <code>action</code> attribute pointing nowhere
+real. What is the actual, complete set of things that happen right now if
+someone fills it out and clicks Submit in a real browser? Walk through it
+literally, step by step, rather than assuming.
+</li>
+
+<li>
+You used <code>&lt;strong&gt;</code> once, deliberately, rather than
+wrapping your whole bio in it or using none at all. What would be lost if
+every sentence in your bio were wrapped in <code>&lt;strong&gt;</code>?
+Is there a version of "everything is emphasized" that's functionally the
+same as "nothing is emphasized" &mdash; and if so, why?
+</li>
+
+<li>
+You have exactly one <code>&lt;h1&gt;</code> and one <code>&lt;main&gt;</code>.
+What would actually go wrong &mdash; concretely, not just "it's against
+the rules" &mdash; if your page had two of each? Who or what would notice,
+and how?
+</li>
+
+<li>
+You wrote real <code>alt</code> text for your image instead of leaving it
+empty or writing "photo." Try to describe, in your own words, what
+information a blind user gains from a well-written <code>alt</code> versus
+a lazy one, using your specific image as the example. Now: is there ever a
+correct reason for <code>alt=""</code> (empty, not missing)? What kind of
+image would that be for?
+</li>
+
+<li>
+This entire project has zero CSS and zero JavaScript, on purpose. Look at
+your finished page and identify one thing about it that's genuinely
+<em>better</em> for that constraint, not just "acceptable despite it."
+</li>
+
+<li>
+If a stranger opened only your raw HTML source, with no rendering, could
+they tell what each section of your page is for, just from the tag names
+and nesting? If the answer is no anywhere, what does that tell you about
+where the "meaning" of that part of your page currently lives?
+</li>
+</ol>
+
+<p>
+<a href="testing.html">&larr; Previous: Testing and validating your page</a> |
+<a href="practical-questions.html">Next: Practical questions &rarr;</a>
+</p>
+
+</body>
+</html>

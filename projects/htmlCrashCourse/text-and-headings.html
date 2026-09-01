@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Text and headings - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="document-structure.html">&larr; Document structure</a></p>
+
+<h1>Text and headings</h1>
+
+<h2>Headings: h1 through h6</h2>
+
+<pre><code>&lt;h1&gt;Page title&lt;/h1&gt;
+&lt;h2&gt;A major section&lt;/h2&gt;
+&lt;h3&gt;A subsection&lt;/h3&gt;
+</code></pre>
+
+<p>
+Headings aren't just "big text" &mdash; they define the outline of your
+document. A screen reader user commonly navigates a page by jumping between
+headings, the way you'd skim a table of contents. That only works if
+headings are used to mark actual structure and nest in order:
+</p>
+
+<ul>
+<li>Use exactly one <code>&lt;h1&gt;</code> per page &mdash; it's the page's main title.</li>
+<li>Don't skip levels going down (an <code>&lt;h2&gt;</code> followed directly by an <code>&lt;h4&gt;</code>, with no <code>&lt;h3&gt;</code>, breaks the outline).</li>
+<li>Never choose a heading level because of how big or bold it happens to look &mdash; that's a styling concern, and it isn't one you have yet without CSS. Choose it because of what it structurally is.</li>
+</ul>
+
+<h2>Paragraphs</h2>
+
+<pre><code>&lt;p&gt;This is a paragraph of text.&lt;/p&gt;
+</code></pre>
+
+<p>
+Browsers add space before and after a <code>&lt;p&gt;</code> automatically.
+Don't use empty paragraphs or <code>&lt;br&gt;</code> tags to fake that
+spacing &mdash; use an actual new paragraph, or accept the default spacing
+until you learn CSS.
+</p>
+
+<h2>Inline text semantics</h2>
+
+<pre><code>&lt;p&gt;This is &lt;strong&gt;important&lt;/strong&gt; and this is &lt;em&gt;emphasized&lt;/em&gt;.&lt;/p&gt;
+</code></pre>
+
+<p>
+<code>&lt;strong&gt;</code> means the content carries real importance (and
+browsers happen to render it bold, but that's a side effect, not the
+purpose). <code>&lt;em&gt;</code> means stress emphasis, rendered italic by
+default for the same reason. There are older tags, <code>&lt;b&gt;</code>
+and <code>&lt;i&gt;</code>, that produce the same visual result with no
+semantic meaning attached &mdash; they exist for cases where you want the
+visual effect specifically with no implication of importance (a book title,
+for instance). Prefer <code>&lt;strong&gt;</code>/<code>&lt;em&gt;</code>
+when you actually mean "this matters."
+</p>
+
+<h2>Line breaks and horizontal rules</h2>
+
+<pre><code>&lt;p&gt;First line&lt;br&gt;Second line, same paragraph&lt;/p&gt;
+&lt;hr&gt;
+</code></pre>
+
+<p>
+<code>&lt;br&gt;</code> forces a line break within the same block of text
+(an address, a poem line) &mdash; not a substitute for starting a new
+paragraph. <code>&lt;hr&gt;</code> marks a thematic break between sections
+of content, not just "a horizontal line I want to see."
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+In <code>profile.html</code>'s <code>&lt;body&gt;</code>, add an
+<code>&lt;h1&gt;</code> with your name, and a short <code>&lt;p&gt;</code>
+bio underneath it (two or three sentences). Use <code>&lt;strong&gt;</code>
+around one word or phrase you genuinely want to stand out as important
+(your current role, for example) &mdash; not just to see the bold text.
+</p>
+
+<p>
+<a href="document-structure.html">&larr; Previous: Document structure</a> |
+<a href="lists.html">Next: Lists &rarr;</a>
+</p>
+
+</body>
+</html>

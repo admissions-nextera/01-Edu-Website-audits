@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Testing and validating your page - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="starter-structure.html">&larr; Starter file structure</a></p>
+
+<h1>Testing and validating your page</h1>
+
+<p>
+There's no compiler for HTML &mdash; a browser will do its best to render
+even badly broken markup, silently guessing at what you meant. That makes
+it easy to ship a page with real structural problems that never throw an
+error anywhere. A few concrete ways to actually check your work:
+</p>
+
+<h2>The W3C Markup Validator</h2>
+<p>
+Upload your file (or paste the HTML directly) to the W3C's validator. It
+checks for real spec violations: unclosed tags, invalid nesting (a
+<code>&lt;div&gt;</code> inside a <code>&lt;p&gt;</code>, for instance,
+which isn't allowed), duplicate <code>id</code> values, missing required
+attributes. Run your finished page through it and fix everything it flags
+&mdash; a clean validation pass is a real, objective signal that your
+markup is correct, not just "looks right in one browser."
+</p>
+
+<h2>Keyboard-only navigation</h2>
+<p>
+Close your mouse hand for a minute. Using only Tab, Shift+Tab, and Enter,
+try to: reach every nav link, reach and fill out every form field, and
+submit the form. If you get stuck anywhere, or the visible focus jumps
+somewhere confusing, that's a real usability problem &mdash; not a
+theoretical accessibility concern, an actual one you just experienced
+yourself.
+</p>
+
+<h2>Screen reader landmarks (optional but worth trying once)</h2>
+<p>
+Turn on your OS's built-in screen reader (VoiceOver on macOS, Narrator on
+Windows) for a few minutes and navigate your page by headings and
+landmarks rather than reading everything linearly. This is exactly the
+payoff of the semantic HTML5 chapter &mdash; a page built from generic
+<code>&lt;div&gt;</code>s gives a screen reader nothing to jump between;
+yours should let you skip straight to "Skills" or "Contact" without
+listening to everything before it.
+</p>
+
+<h2>View source, cold</h2>
+<p>
+Open your file's raw source (not the rendered page) and read it top to
+bottom as if you'd never seen it. Does the nesting make sense without the
+browser's rendering to lean on? If a section is buried three levels deeper
+than it should be, or a closing tag is in the wrong place and the browser
+"fixed" it silently, this is usually where you'll spot it.
+</p>
+
+<h2>Duplicate IDs</h2>
+<p>
+Search your file for every <code>id="..."</code> and confirm none of them
+repeat. Duplicate IDs are invalid HTML (the validator will catch this too),
+and they break both in-page anchor links and label/input associations in
+ways that can be genuinely confusing to debug, since the browser doesn't
+reliably tell you which duplicate it decided to use.
+</p>
+
+<p>
+<a href="starter-structure.html">&larr; Previous: Starter file structure</a> |
+<a href="engineering-questions.html">Next: Engineering questions &amp; Socratic vision &rarr;</a>
+</p>
+
+</body>
+</html>

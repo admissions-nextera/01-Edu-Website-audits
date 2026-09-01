@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Tables - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="links-and-images.html">&larr; Links and images</a></p>
+
+<h1>Tables</h1>
+
+<pre><code>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Role&lt;/th&gt;
+            &lt;th&gt;Company&lt;/th&gt;
+            &lt;th&gt;Years&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;Tech Lead&lt;/td&gt;
+            &lt;td&gt;01EDU&lt;/td&gt;
+            &lt;td&gt;2024&amp;ndash;present&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
+</code></pre>
+
+<h2>The pieces</h2>
+
+<ul>
+<li><code>&lt;table&gt;</code> wraps the whole thing.</li>
+<li><code>&lt;thead&gt;</code> groups the header row(s); <code>&lt;tbody&gt;</code> groups the data rows. Both are optional structurally but recommended &mdash; they let a screen reader announce "you're in the header row" versus "you're in row 3 of the data," and they give you something to target if you ever add CSS.</li>
+<li><code>&lt;tr&gt;</code> is a table row.</li>
+<li><code>&lt;th&gt;</code> is a header cell (bold and centered by default, and semantically marked as a header, which matters more than the styling).</li>
+<li><code>&lt;td&gt;</code> is a regular data cell.</li>
+</ul>
+
+<h2>The rule that matters most: don't use tables for layout</h2>
+
+<p>
+Long before CSS layout tools were standard, developers used
+<code>&lt;table&gt;</code> to arrange whole pages &mdash; navigation in one
+cell, content in another. That practice is considered a serious anti-pattern
+today, for a concrete reason: a screen reader announces a table as tabular
+data ("table with 3 columns and 5 rows..."), which is confusing and
+unhelpful noise when the "table" is actually your entire page layout with
+no tabular relationship at all. Reserve <code>&lt;table&gt;</code> for
+content that's genuinely rows-and-columns data &mdash; a schedule, a price
+list, a comparison, an experience history.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Add an experience or education table to your profile: at minimum, columns
+for role/degree, organization, and dates, with two or three rows. Use
+<code>&lt;thead&gt;</code>/<code>&lt;tbody&gt;</code> and
+<code>&lt;th&gt;</code> for the header row.
+</p>
+
+<p>
+<a href="links-and-images.html">&larr; Previous: Links and images</a> |
+<a href="forms.html">Next: Forms &rarr;</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Links and images - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="lists.html">&larr; Lists</a></p>
+
+<h1>Links and images</h1>
+
+<h2>Links</h2>
+
+<pre><code>&lt;a href="https://github.com/yourname"&gt;My GitHub&lt;/a&gt;
+</code></pre>
+
+<p>
+<code>&lt;a&gt;</code> (anchor) with an <code>href</code> attribute is the
+entire mechanism the web is built on. A few things worth knowing beyond the
+basic form:
+</p>
+
+<pre><code>&lt;a href="https://example.com" target="_blank" rel="noopener"&gt;Opens in a new tab&lt;/a&gt;
+&lt;a href="mailto:you@example.com"&gt;Email me&lt;/a&gt;
+&lt;a href="#contact"&gt;Jump to the contact section&lt;/a&gt;
+</code></pre>
+
+<ul>
+<li><code>target="_blank"</code> opens the link in a new tab. Pair it with <code>rel="noopener"</code> &mdash; without it, the new page gets partial JavaScript access back to your page, which is a real (if narrow) security concern.</li>
+<li><code>href="mailto:..."</code> opens the visitor's email client with that address pre-filled.</li>
+<li><code>href="#id"</code> jumps to whatever element on the same page has <code>id="contact"</code> &mdash; useful for in-page navigation, and something you'll use in the semantic layout chapter.</li>
+</ul>
+
+<p>
+Link text matters for accessibility: "click here" tells a screen reader
+user nothing when they're skimming a list of links out of context.
+"My GitHub profile" does.
+</p>
+
+<h2>Images</h2>
+
+<pre><code>&lt;img src="profile.jpg" alt="Headshot of Jane Doe smiling"&gt;
+</code></pre>
+
+<p>
+<code>&lt;img&gt;</code> is a void element (no closing tag). Two attributes
+you should treat as non-optional:
+</p>
+
+<ul>
+<li><code>src</code> &mdash; where the image file is.</li>
+<li><code>alt</code> &mdash; a text description of the image, read aloud by screen readers and shown if the image fails to load. This isn't a caption; it's what someone who can't see the image needs to know instead.</li>
+</ul>
+
+<h2>Relative vs. absolute paths</h2>
+
+<pre><code>&lt;img src="images/profile.jpg" alt="..."&gt;      &lt;!-- relative: next to this HTML file --&gt;
+&lt;img src="/images/profile.jpg" alt="..."&gt;     &lt;!-- relative to the site root --&gt;
+&lt;img src="https://example.com/pic.jpg" alt="..."&gt;  &lt;!-- absolute: a full URL, anywhere --&gt;
+</code></pre>
+
+<p>
+For a project like this one that you'll hand around as a folder, relative
+paths (the first form) are almost always what you want &mdash; an absolute
+<code>https://...</code> path breaks the moment the image isn't hosted
+there anymore, and a leading-slash path assumes a specific server setup
+that a plain local folder doesn't have.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Add a profile image near the top of your page (any image file works for
+now &mdash; even a placeholder) with a meaningful <code>alt</code>
+description, using a relative path. Then add a short list of links: your
+GitHub, and two or three other profiles or project links, each with
+descriptive link text (not "click here").
+</p>
+
+<p>
+<a href="lists.html">&larr; Previous: Lists</a> |
+<a href="tables.html">Next: Tables &rarr;</a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Level up: extra features - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="practical-questions.html">&larr; Practical questions</a></p>
+
+<h1>Level up: extra features</h1>
+
+<p>
+Optional, roughly ordered from smallest to largest change. All of these
+stay within plain HTML &mdash; no CSS or JavaScript required, though a few
+naturally set up material you'd use once you learn them.
+</p>
+
+<h2>A Projects section</h2>
+<p>
+Add a Projects <code>&lt;section&gt;</code> where each project is its own
+<code>&lt;article&gt;</code> &mdash; a project name as a heading, a short
+description, and a link. This is the clearest real use case for
+<code>&lt;article&gt;</code> in this whole project: each one genuinely
+makes sense pulled out and shown on its own.
+</p>
+
+<h2>A second linked page</h2>
+<p>
+Split your profile into <code>index.html</code> (About + Skills) and
+<code>resume.html</code> (Experience + Contact), linked from a shared
+<code>&lt;nav&gt;</code> on both pages. This is your first real taste of a
+multi-page site, and forces you to think about which nav link should be
+visually/structurally marked as "current page" once you eventually add
+CSS.
+</p>
+
+<h2>A downloadable resume file</h2>
+<pre><code>&lt;a href="resume.pdf" download&gt;Download my resume (PDF)&lt;/a&gt;
+</code></pre>
+<p>
+The <code>download</code> attribute tells the browser to download the file
+rather than navigate to it. Add an actual PDF (even a placeholder) and try
+it.
+</p>
+
+<h2>Open Graph metadata</h2>
+<pre><code>&lt;meta property="og:title" content="Jane Doe &amp;ndash; Developer Profile"&gt;
+&lt;meta property="og:description" content="..."&gt;
+&lt;meta property="og:image" content="images/profile.jpg"&gt;
+</code></pre>
+<p>
+These control how your page appears when linked in Slack, Twitter/X,
+Discord, or similar &mdash; the preview card with a title, description,
+and image. Add them and, if you can host the file somewhere public even
+temporarily, paste the link into a chat app to see the card render.
+</p>
+
+<h2>A print-friendly ordering</h2>
+<p>
+Reorder your sections so the page reads sensibly if someone printed it
+directly from the browser right now, with zero CSS: does Contact make more
+sense before or after Experience on a printed page someone might hand to
+a recruiter? This is a genuine content-structure question, separate from
+anything CSS's <code>@media print</code> would later let you control
+visually.
+</p>
+
+<h2>A sitemap-style footer</h2>
+<p>
+Expand your <code>&lt;footer&gt;</code> into a small secondary
+<code>&lt;nav&gt;</code> repeating your main links, plus a "last updated"
+line. Real sites do this constantly; it's a good excuse to practice
+<code>&lt;nav&gt;</code> appearing more than once in a single page (which
+is completely valid &mdash; a page can have multiple navigation regions).
+</p>
+
+<p>
+<a href="practical-questions.html">&larr; Previous: Practical questions</a> |
+<a href="references.html">Next: References &rarr;</a>
+</p>
+
+</body>
+</html>

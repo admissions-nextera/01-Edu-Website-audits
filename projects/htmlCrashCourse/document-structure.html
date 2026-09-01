@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Document structure - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="overview.html">&larr; Overview</a></p>
+
+<h1>Document structure</h1>
+
+<p>Every HTML document has the same skeleton:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;title&gt;My Page&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;!-- visible content goes here --&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h2>What each piece actually does</h2>
+
+<ul>
+<li><code>&lt;!DOCTYPE html&gt;</code> tells the browser to render the page in standards mode, using the current HTML rules, rather than an old legacy compatibility mode. It has to be the very first line.</li>
+<li><code>&lt;html lang="en"&gt;</code> is the root element. The <code>lang</code> attribute isn't decorative &mdash; screen readers use it to choose pronunciation rules, and browsers use it for things like offering translation.</li>
+<li><code>&lt;head&gt;</code> holds metadata about the page &mdash; nothing in it is rendered directly as visible page content.</li>
+<li><code>&lt;meta charset="UTF-8"&gt;</code> tells the browser how to interpret the bytes of the file as text. Without it, special characters (accents, curly quotes, emoji) can render as garbage.</li>
+<li><code>&lt;title&gt;</code> is what shows in the browser tab and in search results &mdash; it's the one piece of <code>&lt;head&gt;</code> content a user actually sees, just not inside the page itself.</li>
+<li><code>&lt;body&gt;</code> holds everything that actually renders on the page.</li>
+</ul>
+
+<h2>Elements, tags, and attributes &mdash; the vocabulary</h2>
+
+<p>
+An <strong>element</strong> is a piece of content plus its meaning &mdash;
+"this is a paragraph." A <strong>tag</strong> is the actual
+<code>&lt;p&gt;</code>/<code>&lt;/p&gt;</code> markup that delimits it. Most
+elements have an opening and closing tag; a few (like <code>&lt;meta&gt;</code>
+and <code>&lt;img&gt;</code>) are "void" elements with no closing tag or
+content, because they don't wrap anything.
+</p>
+
+<p>
+An <strong>attribute</strong> is extra information attached to the opening
+tag, written as <code>name="value"</code> &mdash; <code>lang="en"</code> and
+<code>charset="UTF-8"</code> above are both attributes.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Create <code>profile.html</code> with just this skeleton. Set the
+<code>&lt;title&gt;</code> to your name. Leave <code>&lt;body&gt;</code>
+empty for now &mdash; you'll fill it in over the next several chapters.
+Open the file directly in a browser (double-click it, or drag it into a
+browser window) and confirm the tab shows your name.
+</p>
+
+<p>
+<a href="overview.html">&larr; Previous: Overview</a> |
+<a href="text-and-headings.html">Next: Text and headings &rarr;</a>
+</p>
+
+</body>
+</html>

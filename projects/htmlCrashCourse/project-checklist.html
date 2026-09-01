@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Final project checklist - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="accessibility-and-metadata.html">&larr; Accessibility and metadata</a></p>
+
+<h1>Final project checklist</h1>
+
+<p>
+If you followed the "Apply it" section of every chapter, this is mostly a
+verification pass, not new work. Go through <code>profile.html</code> and
+confirm every item.
+</p>
+
+<h2>Structure</h2>
+<ul>
+<li><code>&lt;!DOCTYPE html&gt;</code>, <code>&lt;html lang="..."&gt;</code>, <code>&lt;meta charset="UTF-8"&gt;</code>, and a real <code>&lt;title&gt;</code> are all present.</li>
+<li><code>&lt;meta name="description"&gt;</code> is present and accurate.</li>
+<li>The page is wrapped in <code>&lt;header&gt;</code> / <code>&lt;main&gt;</code> / <code>&lt;footer&gt;</code>, with <code>&lt;nav&gt;</code> inside the header linking to each section.</li>
+<li>Exactly one <code>&lt;h1&gt;</code>; every other heading nests without skipping a level.</li>
+</ul>
+
+<h2>Content sections</h2>
+<ul>
+<li>An About section with a bio paragraph, including at least one <code>&lt;strong&gt;</code> used meaningfully.</li>
+<li>A Skills section using a list (<code>&lt;ul&gt;</code>, with at least one nested sublist, or a <code>&lt;dl&gt;</code>).</li>
+<li>At least one profile or project image with a real, descriptive <code>alt</code>, loaded via a relative path.</li>
+<li>A set of external links (GitHub, etc.) each with descriptive link text.</li>
+<li>An Experience/Education section using a properly structured <code>&lt;table&gt;</code> with <code>&lt;thead&gt;</code>/<code>&lt;tbody&gt;</code>.</li>
+<li>A Contact section with a form: labeled name field, labeled required email field, labeled message textarea, and a submit button.</li>
+</ul>
+
+<h2>Accessibility</h2>
+<ul>
+<li>Every <code>&lt;img&gt;</code> has a meaningful <code>alt</code>.</li>
+<li>Every <code>&lt;input&gt;</code>/<code>&lt;textarea&gt;</code> has an associated <code>&lt;label&gt;</code> via matching <code>for</code>/<code>id</code>.</li>
+<li>No link text says "click here" or "here."</li>
+</ul>
+
+<h2>Sanity checks</h2>
+<ul>
+<li>Every opening tag has a matching closing tag (except void elements: <code>&lt;img&gt;</code>, <code>&lt;br&gt;</code>, <code>&lt;hr&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;meta&gt;</code>, <code>&lt;link&gt;</code>).</li>
+<li>Nav links (<code>#about</code>, <code>#skills</code>, etc.) each actually land on a section with a matching <code>id</code>.</li>
+<li>The page opens correctly in a browser with no visibly broken structure &mdash; even without CSS, a well-structured page reads top to bottom in a sensible order.</li>
+</ul>
+
+<p>
+<a href="accessibility-and-metadata.html">&larr; Previous: Accessibility and metadata</a> |
+<a href="starter-structure.html">Next: Starter file structure &rarr;</a>
+</p>
+
+</body>
+</html>

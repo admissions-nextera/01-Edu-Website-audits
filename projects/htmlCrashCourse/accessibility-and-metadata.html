@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Accessibility and metadata - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="semantic-html5.html">&larr; Semantic HTML5 layout</a></p>
+
+<h1>Accessibility and metadata</h1>
+
+<p>
+Most of this guide has been pointing at accessibility along the way rather
+than saving it for the end, because in HTML the two aren't really
+separable &mdash; correct semantic markup <em>is</em> most of what
+accessibility means at this layer. This chapter collects the pieces and
+adds a few that didn't fit naturally earlier.
+</p>
+
+<h2>Quick checklist against what you've already built</h2>
+
+<ul>
+<li>Every <code>&lt;img&gt;</code> has a meaningful <code>alt</code> &mdash; not the filename, not "image," an actual description of what it shows.</li>
+<li>Every <code>&lt;input&gt;</code> has an associated <code>&lt;label&gt;</code>.</li>
+<li>Headings nest in order with exactly one <code>&lt;h1&gt;</code>.</li>
+<li>Link text describes the destination, not "click here."</li>
+<li><code>&lt;html lang="en"&gt;</code> is set (or whatever language you're actually writing in).</li>
+</ul>
+
+<h2>Metadata you haven't added yet</h2>
+
+<pre><code>&lt;meta name="description" content="Personal profile page for Jane Doe, backend developer."&gt;
+&lt;link rel="icon" href="favicon.ico"&gt;
+</code></pre>
+
+<ul>
+<li><code>&lt;meta name="description"&gt;</code> is commonly what search engines show as the snippet under your page's title in results. It's not visible on the page itself &mdash; it lives entirely in <code>&lt;head&gt;</code>.</li>
+<li><code>&lt;link rel="icon"&gt;</code> sets the small icon shown in the browser tab (the favicon). Not required for the page to "work," but its absence is a common tell of an unfinished page.</li>
+</ul>
+
+<h2>tabindex and focus order (know it exists, don't overuse it)</h2>
+
+<p>
+By default, a keyboard user tabs through interactive elements (links,
+inputs, buttons) in the order they appear in the HTML &mdash; another
+reason source order matters, independent of anything visual.
+<code>tabindex="0"</code> can insert a normally non-interactive element
+into that tab order; <code>tabindex="-1"</code> removes something from it
+while still allowing it to be focused programmatically. Positive
+<code>tabindex</code> values (<code>tabindex="1"</code>, etc.) let you
+override the natural order entirely, and are almost always a mistake
+&mdash; they're a common source of confusing, inconsistent keyboard
+navigation. For this project, you shouldn't need <code>tabindex</code> at
+all; it's worth knowing it exists so you recognize it (and avoid misusing
+it) later.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Go back through your entire <code>profile.html</code> against the
+checklist above and fix anything that doesn't hold up &mdash; this is a
+real audit of your own file, not a new section to add. Then add a
+<code>&lt;meta name="description"&gt;</code> to your <code>&lt;head&gt;</code>
+summarizing the page in one sentence.
+</p>
+
+<p>
+<a href="semantic-html5.html">&larr; Previous: Semantic HTML5 layout</a> |
+<a href="project-checklist.html">Next: Final project checklist &rarr;</a>
+</p>
+
+</body>
+</html>

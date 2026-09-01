@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Forms - HTML Crash Course + Project</title>
+</head>
+<body>
+
+<p><a href="index.html">&larr; Index</a> | <a href="tables.html">&larr; Tables</a></p>
+
+<h1>Forms</h1>
+
+<pre><code>&lt;form action="/contact" method="post"&gt;
+    &lt;label for="name"&gt;Name&lt;/label&gt;
+    &lt;input type="text" id="name" name="name" required&gt;
+
+    &lt;label for="email"&gt;Email&lt;/label&gt;
+    &lt;input type="email" id="email" name="email" required&gt;
+
+    &lt;label for="message"&gt;Message&lt;/label&gt;
+    &lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Send&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+
+<h2>form: action and method</h2>
+
+<p>
+<code>action</code> is where the data goes when submitted; <code>method</code>
+is how (<code>get</code> appends the data to the URL, <code>post</code>
+sends it in the request body). For this project you have nothing running
+server-side to receive it yet, so a placeholder <code>action</code> is
+fine &mdash; the point right now is the markup, not a working submission.
+</p>
+
+<h2>label and for/id &mdash; not optional</h2>
+
+<p>
+<code>&lt;label for="name"&gt;</code> paired with
+<code>&lt;input id="name"&gt;</code> is what lets a screen reader announce
+"Name, edit text" when the input receives focus, and it's also what makes
+clicking the label text itself focus the input &mdash; try it once you've
+built this and click directly on a label word. An input with no associated
+label is a common, easy-to-miss accessibility failure; the browser won't
+warn you, it'll just silently work worse for anyone using assistive
+technology.
+</p>
+
+<h2>Input types</h2>
+
+<pre><code>&lt;input type="text"&gt;
+&lt;input type="email"&gt;
+&lt;input type="tel"&gt;
+&lt;input type="number"&gt;
+&lt;input type="checkbox"&gt;
+&lt;input type="radio" name="contact-method" value="email"&gt;
+&lt;input type="radio" name="contact-method" value="phone"&gt;
+</code></pre>
+
+<p>
+The <code>type</code> attribute isn't just cosmetic &mdash;
+<code>type="email"</code> gets you browser-level format validation and
+brings up an email-optimized keyboard on mobile, for free, with zero
+JavaScript. Radio buttons in the same group must share the same
+<code>name</code> &mdash; that shared name is how the browser knows
+they're mutually exclusive choices rather than independent checkboxes.
+</p>
+
+<h2>select and textarea</h2>
+
+<pre><code>&lt;label for="role"&gt;I'm interested in&lt;/label&gt;
+&lt;select id="role" name="role"&gt;
+    &lt;option value="frontend"&gt;Frontend work&lt;/option&gt;
+    &lt;option value="backend"&gt;Backend work&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;textarea id="message" name="message" rows="4"&gt;&lt;/textarea&gt;
+</code></pre>
+
+<p>
+<code>&lt;select&gt;</code> is for choosing one (or, with the
+<code>multiple</code> attribute, several) from a fixed list.
+<code>&lt;textarea&gt;</code> is for free-form multi-line text; unlike
+<code>&lt;input&gt;</code>, its default content goes <em>between</em> the
+opening and closing tags, not in a <code>value</code> attribute.
+</p>
+
+<h2>Validation attributes</h2>
+
+<pre><code>&lt;input type="text" required minlength="2" maxlength="50"&gt;
+&lt;input type="number" min="0" max="120"&gt;
+</code></pre>
+
+<p>
+<code>required</code>, <code>minlength</code>/<code>maxlength</code>, and
+<code>min</code>/<code>max</code> give you real client-side validation with
+no JavaScript at all &mdash; try submitting the form you build below with a
+required field empty and watch the browser block it on its own.
+</p>
+
+<h2>Apply it</h2>
+
+<p>
+Add a contact form to your profile with: a labeled name field, a labeled
+email field (using <code>type="email"</code>, marked <code>required</code>),
+a labeled message <code>&lt;textarea&gt;</code>, and a submit button. Every
+input needs a properly associated <code>&lt;label&gt;</code> &mdash; no
+exceptions.
+</p>
+
+<p>
+<a href="tables.html">&larr; Previous: Tables</a> |
+<a href="semantic-html5.html">Next: Semantic HTML5 layout &rarr;</a>
+</p>
+
+</body>
+</html>
